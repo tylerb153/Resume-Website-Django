@@ -17,21 +17,37 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 
-                <div class="d-lg-none" style="width:125px; height:40px"></div>
+                <!-- <div class="d-lg-none" style="width:125px; height:40px"></div> -->
 
                 <a class="navbar-brand mx-auto">
                     <img src="../static/Images/LogoColor.svg" alt="The Minecraft Cult Logo" class="align-text-top" style="height: 50px">
                 </a>
                 
                 <div class="offcanvas offcanvas-start" id="navbarToggler">
-                    <div class="offcanvas-header bg-body-secondary">
-                        <h5 class="offcanvas-title fs-2 ms-2 fw-bold">The Minecraft Cult</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    <div class="offcanvas-header bg-body-secondary flex-column align-items-start">
+                        <div class="d-flex flex-column w-100">
+                            <div class="d-flex align-items-center justify-content-between w-100">
+                                <h5 class="offcanvas-title fs-1 ms-2 fw-bold">The Minecraft Cult</h5>
+                                <button type="button" class="btn-close me-2" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                            </div>
+                        </div>
+                        <hr class="w-100">
+                        <div class="ms-2 d-flex flex-column d-lg-none">
+                            <a class="nav-link text-decoration-underline" href="https://www.theminecraftcult.com/">mc.theminecraftcult.com</a>
+                            <div class="d-flex">
+                                <span class="StatusIcon"></span>
+                                <p class="ms-1 StatusText"></p>
+                            </div>
+                        </div>
+                        <hr class="w-100 m-0">
                     </div>
                     <div class="offcanvas-body bg-body-secondary">
                         <ul class="navbar-nav ms-2 gap-lg-2 fs-4 fw-bold align-items-lg-center">
                             <li class="nav-item d-none d-lg-block">
                                 <a class="nav-link fs-2">The Minecraft Cult</a>
+                            </li>
+                            <li class="nav-item">
+                                
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="https://www.theminecraftcult.com/">Home</a>
@@ -48,13 +64,14 @@
                         </ul>
                     </div>
                 </div>
-                <div class="d-flex flex-column align-items-center" style="width:181">
+                <div class="d-flex flex-column d-lg-block d-none me-2">
                     <a class="nav-link text-decoration-underline" href="https://www.theminecraftcult.com/">mc.theminecraftcult.com</a>
-                    <div class="d-flex">
-                        <span class="me-1" id="StatusIcon"></span>
-                        <p class="mb-0" id="StatusText"></p>
+                    <div class="d-flex align-items-center justify-content-center">
+                        <span class="me-1 StatusIcon"></span>
+                        <p class="mb-0 StatusText"></p>
                     </div>
                 </div>
+                <div class="d-lg-none" style="width:56px; height:40px;"></div>
             </div>
         </nav>
             

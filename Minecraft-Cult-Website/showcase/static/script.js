@@ -1,7 +1,7 @@
 const url = "https://api.mcstatus.io/v2/status/java/mc.theminecraftcult.com"
 
 getStatus();
-setInterval(getStatus, 30000);    
+// setInterval(getStatus, 30000); 
 
 function getStatus() {
     fetch(url)
@@ -21,17 +21,27 @@ function getStatus() {
 
 function changeStatus(data) {
     console.log(data)
-    statusIcon = document.querySelector('#StatusIcon');
-    statusText = document.querySelector('#StatusText');
+    statusIcons = document.querySelectorAll('.StatusIcon');
+    statusTexts = document.querySelectorAll('.StatusText');
+    console.log(statusIcons)
+    console.log(statusTexts)
     if (data.online) {
-        statusIcon.classList.remove('bi-x-circle-fill');
-        statusIcon.style.color = 'green';
-        statusIcon.classList.add('bi-check-circle-fill');
-        statusText.innerText = `${data.players.online}/${data.players.max} Players`
+        for (icon of statusIcons) {
+            icon.classList.remove('bi-x-circle-fill');
+            icon.style.color = 'green';
+            icon.classList.add('bi-check-circle-fill');
+        }
+        for (text of statusTexts) {
+            text.innerText = `${data.players.online}/${data.players.max} Players`
+        }
     } else {
-        statusIcon.classList.remove('bi-check-circle-fill')
-        statusIcon.style.color = 'darkred';
-        statusIcon.classList.add('bi-x-circle-fill');
-        statusText.innerText = "Offline"
+        for (icon of statusIcons) {
+            icon.classList.remove('bi-check-circle-fill')
+            icon.style.color = 'darkred';
+            icon.classList.add('bi-x-circle-fill');
+        }
+        for (text of statusTexts) {
+            text.innerText = "Offline"
+        }
     }
 }

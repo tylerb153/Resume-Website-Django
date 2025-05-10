@@ -1,0 +1,33 @@
+/* .navbar {
+    font-family: 
+} */
+
+.btn-p {
+    padding: .25em;
+    margin-left: 1em;
+    margin-right: 1em;
+    margin-bottom: 0em;
+}
+
+.sidebar {
+    width: 25%;
+    max-width: 400px;
+    height: calc(100vh - 63px);
+}
+
+.build-container {
+    max-width: 400px;
+    padding-top: calc(var(--bs-gutter-x) * .5);
+    padding-bottom: calc(var(--bs-gutter-x) * .5);
+}
+
+.build-image {
+    object-fit: cover; 
+    aspect-ratio: 16/9;
+}
+
+.build-details {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

@@ -19,6 +19,13 @@
     max-width: 400px;
     padding-top: calc(var(--bs-gutter-x) * .5);
     padding-bottom: calc(var(--bs-gutter-x) * .5);
+    transition: all .3s ease-out
+}
+.build-container:hover {
+    transform: scale(1.05);
+}
+.build-container:active {
+    transform: scale(1.02);
 }
 
 .build-image {

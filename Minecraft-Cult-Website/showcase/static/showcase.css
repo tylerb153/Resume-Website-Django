@@ -41,3 +41,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+.btn-page {
+    height: 40px;
+}

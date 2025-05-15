@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% block title %}Build Showcase{% endblock %}
 {% block head %}
 <link rel="stylesheet" href="{% static 'showcase.css' %}">
 {% endblock%}
@@ -31,12 +32,9 @@
 
             <h3 class="mt-3 mx-auto" style="font-size: 28px">Filters</h3>
             <div class="d-flex flex-wrap gap-2 mt-2">
-                <!-- Temporary buttons -->
-                <button class="btn btn-outline-secondary" type="button">Tag 1</button>
-                <button class="btn btn-outline-secondary" type="button">Tag 2</button>
-                <button class="btn btn-outline-secondary" type="button">Tag 3</button>
-                <button class="btn btn-outline-secondary" type="button">Tag 4</button>
-                <button class="btn btn-outline-secondary" type="button">Tag 5</button>
+                {% for tag in tags %}
+                    <button class="btn btn-outline-secondary" type="button">{{tag.name}}</button>
+                {% endfor %}
             </div>
         </div>
     </div>
@@ -61,55 +59,28 @@
 
             <h3 class="mt-3 mx-auto" style="font-size: 28px">Filters</h3>
             <div class="d-flex flex-wrap gap-2 mt-2">
-                <!-- Temporary buttons -->
-                <button class="btn btn-outline-secondary" type="button">Tag 1</button>
-                <button class="btn btn-outline-secondary" type="button">Tag 2</button>
-                <button class="btn btn-outline-secondary" type="button">Tag 3</button>
-                <button class="btn btn-outline-secondary" type="button">Tag 4</button>
-                <button class="btn btn-outline-secondary" type="button">Tag 5</button>
+                {% for tag in tags %}
+                    <button class="btn btn-outline-secondary" type="button">{{tag.name}}</button>
+                {% endfor %}
             </div>
         </div>
         <div class="vr d-none d-lg-block"></div>
         <!-- Builds -->
         <div class="container" style="max-width: 1700px;">
             <div class="row gap-2 ms-md-3 me-md-3 justify-content-center justify-content-lg-start">
-                <!-- Example Build Tile -->
-                <div class="col-auto shadow mt-3 build-container">
-                    <img src="../static/Images/LogoBW.svg " class="w-100 build-image">
+                {% for build in builds %}
+                    <div class="col-auto shadow mt-3 build-container">
+                    <img src={% static 'images/LogoBW.svg' %} class="w-100 build-image">
                     <hr>
-                    <h5 class="mt-2 fs-4 build-details">Tyler's Lighthouse</h5>
-                    <p class="mb-0 fst-italic build-details">Tylerb153</p>
-                    <p class="text-body-tertiary mb-0 mt-2">x: {254}    y: {69}    z: {512}</p>
+                    <h5 class="mt-2 fs-4 build-details">{{build.title}}</h5>
+                    <p class="mb-0 fst-italic build-details">{{build.creator}}</p>
+                    <div class="d-flex text-body-tertiary mb-0 mt-2">
+                        {% if build.coordsx != null %}<p class="mb-0">x: {{build.coordsx}}&nbsp;&nbsp;</p>{% endif %}
+                        {% if build.coordsy != null %}<p class="mb-0">y: {{build.coordsy}}&nbsp;&nbsp;</p>{% endif %}
+                        {% if build.coordsz != null %}<p class="mb-0">z: {{build.coordsz}}</p>{% endif %}
+                    </div>
                 </div>
-                
-                <div class="col-auto shadow mt-3 build-container">
-                    <img src="../static/Images/LogoBW.svg " class="w-100 build-image">
-                    <hr>
-                    <h5 class="mt-2 fs-4 build-details">Tyler's Lighthouse</h5>
-                    <p class="mb-0 fst-italic build-details">Tylerb153</p>
-                    <p class="text-body-tertiary mb-0 mt-2">x: {254}    y: {69}    z: {512}</p>
-                </div>
-                <div class="col-auto shadow mt-3 build-container">
-                    <img src="../static/Images/LogoBW.svg " class="w-100 build-image">
-                    <hr>
-                    <h5 class="mt-2 fs-4 build-details">Tyler's Lighthouse</h5>
-                    <p class="mb-0 fst-italic build-details">Tylerb153</p>
-                    <p class="text-body-tertiary mb-0 mt-2">x: {254}    y: {69}    z: {512}</p>
-                </div>
-                <div class="col-auto shadow mt-3 build-container">
-                    <img src="../static/Images/LogoBW.svg " class="w-100 build-image">
-                    <hr>
-                    <h5 class="mt-2 fs-4 build-details">Tyler's Lighthouse</h5>
-                    <p class="mb-0 fst-italic build-details">Tylerb153</p>
-                    <p class="text-body-tertiary mb-0 mt-2">x: {254}    y: {69}    z: {512}</p>
-                </div>
-                <div class="col-auto shadow mt-3 build-container">
-                    <img src="../static/Images/LogoBW.svg " class="w-100 build-image">
-                    <hr>
-                    <h5 class="mt-2 fs-4 build-details">Tyler's Lighthouse</h5>
-                    <p class="mb-0 fst-italic build-details">Tylerb153</p>
-                    <p class="text-body-tertiary mb-0 mt-2">x: {254}    y: {69}    z: {512}</p>
-                </div>
+                {% endfor %}
             </div>
         </div>
     </div>

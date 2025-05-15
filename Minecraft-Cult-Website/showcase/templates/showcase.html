@@ -7,7 +7,7 @@
 {% block content %}
     <!-- Mobile Sidebar -->
     <div class="d-flex flex-column d-lg-none py-3 justify-content-center bg-body-tertiary mobile-sidebar">
-            <button class="btn btn-outline-primary w-100" type="button">
+            <button class="btn btn-outline-primary w-100" data-bs-toggle="modal" data-bs-target="#NewBuildModel" type="button">
                 <p class="btn-p">+ Post a Build</p>
             </button>
             <form class="d-flex mt-3" role="search">
@@ -15,7 +15,7 @@
                 <button class="btn btn-outline-success" type="submit"><i class="bi bi-search"></i></button>
             </form>
 
-            <button class="btn btn-secondary mt-3 d-flex align-items-center justify-content-center" type="button" data-bs-toggle="collapse" data-bs-target="#filterDropdown" aria-expanded="false" aria-controls="collapseExample">
+            <button class="btn btn-secondary d-flex align-items-center justify-content-center" type="button" data-bs-toggle="collapse" data-bs-target="#filterDropdown" aria-expanded="false" aria-controls="collapseExample">
                 <i class="bi bi-filter fs-3"></i>
                 <p class="btn-p ms-0">Sort and Filter</p>
             </button>
@@ -24,7 +24,7 @@
     <div class="collapse" id="filterDropdown">
     <div class="card card-body bg-body-tertiary mobile-sidebar">
         <div class="flex-column p-0">
-            <button class="btn btn-outline-secondary w-100 mt-3" type="button">
+            <button class="btn btn-outline-secondary w-100" type="button">
                 <div class="container">
                     <p class="btn-p">Sort By</p>
                 </div>
@@ -39,10 +39,10 @@
         </div>
     </div>
     </div>
-    <div class="d-flex align-items-start">
+    <div class="d-flex align-items-start mb-3" style="height: 100%">
         <!-- Sidebar -->
         <div class="d-none d-lg-flex flex-column bg-body-tertiary p-3 sidebar">
-            <button class="btn btn-outline-primary w-100" type="button">
+            <button class="btn btn-outline-primary w-100" data-bs-toggle="modal" data-bs-target="#NewBuildModel" type="button">
                 <p class="btn-p">+ Post a Build</p>
             </button>
 
@@ -51,7 +51,7 @@
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
 
-            <button class="btn btn-outline-secondary w-100 mt-3" type="button">
+            <button class="btn btn-outline-secondary w-100" type="button">
                 <div class="container">
                     <p class="btn-p">Sort By</p>
                 </div>
@@ -66,7 +66,7 @@
         </div>
         <div class="vr d-none d-lg-block"></div>
         <!-- Builds -->
-        <div class="container" style="max-width: 1700px;">
+        <div class="container" style="max-width: 1700px; overflow-y: auto; height: 100%">
             <div class="row gap-2 ms-md-3 me-md-3 justify-content-center justify-content-lg-start">
                 {% for build in builds %}
                     <div class="col-auto shadow mt-3 build-container">
@@ -81,6 +81,51 @@
                     </div>
                 </div>
                 {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- New Build Model -->
+    <div class="modal fade" id="NewBuildModel" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-dialog scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">New Build</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="{% url 'createBuild' %}">
+                        {% csrf_token %}
+                        <label for="build-title" class="col-form-label">Title:</label>
+                        <input type="text" class="form-control" id="build-title" name="title">
+
+                        <label for="build-creator" class="col-form-label">Creator:</label>
+                        <input type="text" class="form-control" id="build-creator" name="creator">
+
+                        <div class="d-flex justify-content-between col-form-label">
+                            <div class="d-flex flex-column w-25">
+                                <label for="build-coordsx" class="col-form-label">x:</label>
+                                <input type="number" class="form-control" id="build-coordsx" name="coordsx">
+                            </div>
+                            <div class="d-flex flex-column w-25">
+                                <label for="build-coordsy" class="col-form-label">y:</label>
+                                <input type="number" class="form-control" id="build-coordsy" name="coordsy">
+                            </div>
+                            <div class="d-flex flex-column w-25">
+                                <label for="build-coordsz" class="col-form-label">z:</label>
+                                <input type="number" class="form-control" id="build-coordsz" name="coordsz">
+                            </div>
+                        </div>
+                            
+                        <label for="build-description" class="col-form-label">Description:</label>
+                        <textarea class="form-control" id="build-description" name="description"></textarea>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Create Build Post</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

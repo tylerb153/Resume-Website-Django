@@ -2,3 +2,4 @@
 __pycache__
 *.sqlite3
 BuildTestData.py
+.DS_Store

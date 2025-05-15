@@ -6,7 +6,7 @@ class Build(models.Model):
     description = models.TextField()
     creator = models.CharField(max_length=100)
     tags = models.ManyToManyField('Tag', related_name='builds')
-    thumbnail = models.ForeignKey('Image', related_name='build', on_delete=models.PROTECT, null=False, blank=False)
+    # thumbnail = models.ForeignKey('Image', related_name='build', on_delete=models.PROTECT, null=False, blank=False)
 
     def __str__(self):
         return self.title

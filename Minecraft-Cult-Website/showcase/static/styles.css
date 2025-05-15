@@ -12,6 +12,11 @@
     height: calc(100vh - 63px);
 }
 
+.mobile-sidebar {
+    padding-left: 12px;
+    padding-right: 12px;
+}
+
 .build-container {
     max-width: 339px;
     padding-top: calc(var(--bs-gutter-x) * .5);

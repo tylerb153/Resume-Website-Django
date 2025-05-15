@@ -1,7 +1,7 @@
 const url = "https://api.mcstatus.io/v2/status/java/mc.theminecraftcult.com"
 
-// getStatus();
-// setInterval(getStatus, 30000); 
+getStatus();
+setInterval(getStatus, 30000); 
 
 function getStatus() {
     fetch(url)

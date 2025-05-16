@@ -7,12 +7,24 @@ from .forms import BuildForm
 # Create your views here.
 def showcase(request):
     searchQuery = request.GET.get('search', '')
-    builds_list = Build.objects.filter(Q(title__icontains=searchQuery) | Q(creator__icontains=searchQuery) | Q(tags__name__icontains=searchQuery)).distinct()
+    filter_string = request.GET.get('filters', '')
 
-    filters = request.GET.get('filters', '')
+    filters = []
+    for filter in filter_string.split(" "):
+        if filter != "":
+            filters.append(filter)
+    print(filters)
+
+    builds = Build.objects.filter(Q(title__icontains=searchQuery) | Q(creator__icontains=searchQuery) | Q(tags__name__icontains=searchQuery)).distinct()
+    
+    filter_query = Q()
+    for filter in filters:
+        filter_query |= Q(tags__name__iexact=filter)
+
+    builds = builds.filter(filter_query).distinct()
     
 
-    paginator = Paginator(builds_list, 12)
+    paginator = Paginator(builds, 12)
     page_number = request.GET.get('page')
     builds = paginator.get_page(page_number)
     

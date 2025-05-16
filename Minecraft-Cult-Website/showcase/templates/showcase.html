@@ -64,7 +64,7 @@
                 <form class="mb-0" method="GET" action="{% url 'showcase' %}">
                 <input type="hidden" name="search" value="{{ request.GET.search }}">
                     {% for tag in tags %}
-                        <button class="mt-1 btn {% if tag.name in request.GET.filters %}btn-secondary{% else %}btn-outline-secondary{% endif %}" type="submit" name="filters" value="{% if tag.name in request.GET.filters %}{{ request.GET.filters|exclude:tag.name }}{% else %}{{ request.GET.filters }}{{ tag.name }} {% endif %}" type="button">{{tag.name}}</button>{% endfor %}
+                        <button class="mt-1 btn {% if tag.name in request.GET.filters %}btn-secondary{% else %}btn-outline-secondary{% endif %}" type="submit" name="filters" value="{% if tag.name in request.GET.filters %}{{ request.GET.filters|exclude:tag.name }}{% else %}{{ request.GET.filters }}{{ tag.name }},{% endif %}" type="button">{{tag.name}}</button>{% endfor %}
                 </form>
             </div>
         </div>
@@ -90,8 +90,8 @@
                 <div class="pagination">
                     <span class="step-links mx-1">
                         {% if builds.has_previous %}
-                        <a class="btn btn-outline-secondary mx-1 d-none d-md-inline-block btn-page" href="?page=1&search={{ request.GET.search }}">&laquo; first</a>
-                        <a class="btn btn-outline-secondary mx-1 btn-page" href="?page={{ builds.previous_page_number }}&search={{ request.GET.search }}">previous</a>
+                        <a class="btn btn-outline-secondary mx-1 d-none d-md-inline-block btn-page" href="?page=1&search={{ request.GET.search }}&filters={{ request.GET.filters }}">&laquo; first</a>
+                        <a class="btn btn-outline-secondary mx-1 btn-page" href="?page={{ builds.previous_page_number }}&search={{ request.GET.search }}&filters={{ request.GET.filters }}">previous</a>
                         {% endif %}
                         
                         <span class="current mx-1">
@@ -99,8 +99,8 @@
                         </span>
                         
                         {% if builds.has_next %}
-                        <a class="btn btn-outline-secondary mx-1 btn-page" href="?page={{ builds.next_page_number }}&search={{ request.GET.search }}">next</a>
-                        <a class="btn btn-outline-secondary mx-1 d-none d-sm-inline-block btn-page" href="?page={{ builds.paginator.num_pages }}&search={{ request.GET.search }}">last &raquo;</a>
+                        <a class="btn btn-outline-secondary mx-1 btn-page" href="?page={{ builds.next_page_number }}&search={{ request.GET.search }}&filters={{ request.GET.filters }}">next</a>
+                        <a class="btn btn-outline-secondary mx-1 d-none d-sm-inline-block btn-page" href="?page={{ builds.paginator.num_pages }}&search={{ request.GET.search }}&filters={{ request.GET.filters }}">last &raquo;</a>
                         {% endif %}
                     </span>
                 </div>

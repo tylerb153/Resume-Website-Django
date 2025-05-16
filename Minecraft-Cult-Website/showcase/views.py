@@ -10,10 +10,9 @@ def showcase(request):
     filter_string = request.GET.get('filters', '')
 
     filters = []
-    for filter in filter_string.split(" "):
+    for filter in filter_string.split(","):
         if filter != "":
             filters.append(filter)
-    print(filters)
 
     builds = Build.objects.filter(Q(title__icontains=searchQuery) | Q(creator__icontains=searchQuery) | Q(tags__name__icontains=searchQuery)).distinct()
     
@@ -24,12 +23,12 @@ def showcase(request):
     builds = builds.filter(filter_query).distinct()
     
 
-    paginator = Paginator(builds, 12)
+    paginator = Paginator(builds, 2)
     page_number = request.GET.get('page')
     builds = paginator.get_page(page_number)
     
     tags = Tag.objects.all()
-    context = {'tags': tags, 'builds': builds, 'searchQuery': searchQuery}
+    context = {'tags': tags, 'builds': builds}
     return render(request, 'showcase.html', context)
 
 def createBuild(request):

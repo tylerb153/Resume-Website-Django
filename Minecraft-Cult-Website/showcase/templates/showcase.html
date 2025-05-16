@@ -46,21 +46,24 @@
                 <p class="btn-p">+ Post a Build</p>
             </button>
 
-            <form class="d-flex mt-3" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
+            <form class="d-flex mt-3" role="search" method="GET" action="{% url 'showcase' %}">
+                <input class="form-control me-2" type="search" name="search" placeholder="Search" aria-label="Search" value="{{ request.GET.search }}">
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
 
-            <button class="btn btn-outline-secondary w-100" type="button">
+            {% comment %} <button class="btn btn-outline-secondary w-100" type="button">
                 <div class="container">
                     <p class="btn-p">Sort By</p>
                 </div>
-            </button>
+            </button> {% endcomment %}
 
             <h3 class="mt-3 mx-auto" style="font-size: 28px">Filters</h3>
             <div class="d-flex flex-wrap gap-2 mt-2">
                 {% for tag in tags %}
-                    <button class="btn btn-outline-secondary" type="button">{{tag.name}}</button>
+                    <form class="mb-0" method="GET" action="{% url 'showcase' %}">
+                        <input type="hidden" name="search" value="{{ request.GET.search }}">
+                        <button class="btn btn-outline-secondary" type="submit" name="filter" value={{tag.name}} type="button">{{tag.name}}</button>
+                    </form>
                 {% endfor %}
             </div>
         </div>
@@ -86,8 +89,8 @@
                 <div class="pagination">
                     <span class="step-links mx-1">
                         {% if builds.has_previous %}
-                        <a class="btn btn-outline-secondary mx-1 d-none d-md-inline-block btn-page" href="?page=1">&laquo; first</a>
-                        <a class="btn btn-outline-secondary mx-1 btn-page" href="?page={{ builds.previous_page_number }}">previous</a>
+                        <a class="btn btn-outline-secondary mx-1 d-none d-md-inline-block btn-page" href="?page=1&search={{ request.GET.search }}">&laquo; first</a>
+                        <a class="btn btn-outline-secondary mx-1 btn-page" href="?page={{ builds.previous_page_number }}&search={{ request.GET.search }}">previous</a>
                         {% endif %}
                         
                         <span class="current mx-1">
@@ -95,8 +98,8 @@
                         </span>
                         
                         {% if builds.has_next %}
-                        <a class="btn btn-outline-secondary mx-1 btn-page" href="?page={{ builds.next_page_number }}">next</a>
-                        <a class="btn btn-outline-secondary mx-1 d-none d-sm-inline-block btn-page" href="?page={{ builds.paginator.num_pages }}">last &raquo;</a>
+                        <a class="btn btn-outline-secondary mx-1 btn-page" href="?page={{ builds.next_page_number }}&search={{ request.GET.search }}">next</a>
+                        <a class="btn btn-outline-secondary mx-1 d-none d-sm-inline-block btn-page" href="?page={{ builds.paginator.num_pages }}&search={{ request.GET.search }}">last &raquo;</a>
                         {% endif %}
                     </span>
                 </div>

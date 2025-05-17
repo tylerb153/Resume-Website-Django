@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ build.title }}{% endblock %}
+{% block head %}{% endblock%}
+
+{% block content %}
+    <div class="container-fluid p-lg-5 pt-5 mb-3" style="max-width: 1700px; overflow-y: auto; height: 100%">
+        <h1 class="text-capitalize mb-0">{{ build.title }}</h1>
+        <h3 class="fst-italic mb-0">{{ build.creator }}</h3>
+        <div class="d-flex text-body-tertiary mb-0 mt-2 fs-5">
+            {% if build.coordsx != null %}<p class="mb-0">x: {{build.coordsx}}&nbsp;&nbsp;</p>{% endif %}
+            {% if build.coordsy != null %}<p class="mb-0">y: {{build.coordsy}}&nbsp;&nbsp;</p>{% endif %}
+            {% if build.coordsz != null %}<p class="mb-0">z: {{build.coordsz}}</p>{% endif %}
+        </div>
+        <h5 class="mb-0 mt-3">Description:</h5>
+        <p class="">{{ build.description }}</p>
+        <div class="ratio ratio-16x9">
+            <div id="buildImageCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="10000">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#buildImageCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#buildImageCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                </div>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="{% static 'images/LogoBW.svg' %}" class="d-block w-100 h-100 object-fit-cover" alt="Image of build">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="{% static 'images/LogoColor.svg' %}" class="d-block w-100 h-100 object-fit-cover" alt="Image of build">
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#buildImageCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#buildImageCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -3,7 +3,7 @@
 {% load showcase_filters %}
 {% block title %}Build Showcase{% endblock %}
 {% block head %}
-<link rel="stylesheet" href="{% static 'showcase.css' %}">
+    <link rel="stylesheet" href="{% static 'showcase.css' %}">
 {% endblock%}
 {% block content %}
     <!-- Mobile Sidebar -->
@@ -73,17 +73,17 @@
         <div class="container" style="max-width: 1700px; overflow-y: auto; height: 100%">
             <div class="row gap-2 ms-md-3 me-md-3 justify-content-center justify-content-lg-start">
                 {% for build in builds %}
-                    <div class="col-auto shadow mt-3 build-container">
-                    <img src={% static 'images/LogoBW.svg' %} class="w-100 build-image">
-                    <hr>
-                    <h5 class="mt-2 fs-4 build-details">{{build.title}}</h5>
-                    <p class="mb-0 fst-italic build-details">{{build.creator}}</p>
-                    <div class="d-flex text-body-tertiary mb-0 mt-2">
-                        {% if build.coordsx != null %}<p class="mb-0">x: {{build.coordsx}}&nbsp;&nbsp;</p>{% endif %}
-                        {% if build.coordsy != null %}<p class="mb-0">y: {{build.coordsy}}&nbsp;&nbsp;</p>{% endif %}
-                        {% if build.coordsz != null %}<p class="mb-0">z: {{build.coordsz}}</p>{% endif %}
-                    </div>
-                </div>
+                    <a href="{% url 'buildDetails' build.id %}" class="col-auto shadow mt-3 build-container text-reset text-decoration-none">
+                        <img src={% static 'images/LogoBW.svg' %} class="w-100 build-image">
+                        <hr>
+                        <h5 class="mt-2 fs-4 build-details text-capitalize">{{build.title}}</h5>
+                        <p class="mb-0 fst-italic build-details">{{build.creator}}</p>
+                        <div class="d-flex text-body-tertiary mb-0 mt-2">
+                            {% if build.coordsx != null %}<p class="mb-0">x: {{build.coordsx|truncatechars:6}}&nbsp;&nbsp;</p>{% endif %}
+                            {% if build.coordsy != null %}<p class="mb-0">y: {{build.coordsy|truncatechars:6}}&nbsp;&nbsp;</p>{% endif %}
+                            {% if build.coordsz != null %}<p class="mb-0">z: {{build.coordsz|truncatechars:6}}</p>{% endif %}
+                        </div>
+                    </a>
                 {% endfor %}
             </div>
             <div class="d-flex mt-4 mb-1 mx-0 p-2 justify-content-center">

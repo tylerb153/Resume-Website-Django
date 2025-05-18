@@ -4,16 +4,10 @@ from django.db.models import Q
 from .models import Build, Tag
 from .forms import BuildForm
 
+import random
+
 # Create your views here.
 def showcase(request):
-    # Display the specific build
-    buildID = request.GET.get('id', '')
-    if buildID:
-        build = Build.objects.filter(Q(id=buildID)).first()
-        context = {'build': build}
-        return render(request, 'buildDetails.html', context)
-    
-
     # Display the searched and filtered builds
     searchQuery = request.GET.get('search', '')
     filter_string = request.GET.get('filters', '')
@@ -47,3 +41,21 @@ def createBuild(request):
             form.save()
             return redirect('showcase')
     return render(request, 'showcase.html', {'form': form})
+
+def buildDetails(request, id):
+    # Display the specific build
+    if id:
+        builds = Build.objects.all()
+        build = builds.filter(Q(id=id)).first()
+
+        builds = list(builds)
+        builds.remove(build)
+        while len(builds) >= 6:
+            builds.remove(random.choice(builds))
+
+        random.shuffle(builds)
+
+
+        context = {'build': build, 'builds': builds}
+        return render(request, 'buildDetails.html', context)
+    

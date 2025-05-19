@@ -40,6 +40,14 @@
             </div>
         </div>
     </div>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-dismissible alert-{{ message.tags }} mb-0 shadow">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
     <div class="d-flex align-items-start mb-3" style="height: 100%">
         <!-- Sidebar -->
         <div class="d-none d-lg-flex flex-column bg-body-tertiary p-3 sidebar">
@@ -120,10 +128,10 @@
                     <form class="mb-0" method="POST" action="{% url 'createBuild' %}">
                         {% csrf_token %}
                         <label for="build-title" class="col-form-label">Title:</label>
-                        <input type="text" class="form-control" id="build-title" name="title">
+                        <input type="text" class="form-control" id="build-title" name="title" required>
 
                         <label for="build-creator" class="col-form-label">Creator:</label>
-                        <input type="text" class="form-control" id="build-creator" name="creator">
+                        <input type="text" class="form-control" id="build-creator" name="creator" required>
 
                         <div class="d-flex justify-content-between col-form-label">
                             <div class="d-flex flex-column w-25">
@@ -141,7 +149,7 @@
                         </div>
                             
                         <label for="build-description" class="col-form-label">Description:</label>
-                        <textarea class="form-control" id="build-description" name="description"></textarea>
+                        <textarea class="form-control" id="build-description" name="description" required></textarea>
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

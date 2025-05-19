@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
 from django.db.models import Q
+from django.contrib import messages
 from .models import Build, Tag
 from .forms import BuildForm
 
@@ -31,6 +32,9 @@ def showcase(request):
     builds = paginator.get_page(page_number)
     
     tags = Tag.objects.all()
+
+    
+
     context = {'tags': tags, 'builds': builds}
     return render(request, 'showcase.html', context)
 
@@ -39,8 +43,10 @@ def createBuild(request):
         form = BuildForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('showcase')
-    return render(request, 'showcase.html', {'form': form})
+            messages.success(request, 'Uploaded Build Successful')
+        else:
+            messages.error(request, 'Upload Failed! Refresh and try again', extra_tags='danger') 
+    return redirect('showcase')
 
 def buildDetails(request, id):
     # Display the specific build

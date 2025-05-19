@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
-
+{% load showcase_filters %}
 {% block title %}{{ build.title }}{% endblock %}
 {% block head %}
     <link rel="stylesheet" href="{% static 'showcase.css' %}">
@@ -27,8 +27,8 @@
             <h1 class="text-capitalize mb-0">{{ build.title }}</h1>
             <h3 class="fst-italic mb-0">{{ build.creator }}</h3>
             <div class="d-flex text-body-tertiary mb-0 mt-2 fs-5">
-                {% if build.coordsx != null %}<p class="mb-0">x: {{build.coordsx}}&nbsp;&nbsp;</p>{% endif %}
-                {% if build.coordsy != null %}<p class="mb-0">y: {{build.coordsy}}&nbsp;&nbsp;</p>{% endif %}
+                {% if build.coordsx != null %}<p class="mb-0">x: {{build.coordsx}}&nbsp;&nbsp;&nbsp;&nbsp;</p>{% endif %}
+                {% if build.coordsy != null %}<p class="mb-0">y: {{build.coordsy}}&nbsp;&nbsp;&nbsp;&nbsp;</p>{% endif %}
                 {% if build.coordsz != null %}<p class="mb-0">z: {{build.coordsz}}</p>{% endif %}
             </div>
             <h5 class="mb-0 mt-3">Description:</h5>
@@ -58,6 +58,18 @@
                     </button>
                 </div>
             </div>
+            <hr>
+            <h5 class="mb-0 mt-3">Tags:</h5>
+            {% if build.tags.all.count == 0 %}
+            <p class="mb-0">No tags found...</p>
+            {% else %}
+                <div class="d-flex flex-wrap gap-2 mt-2">
+                    <form class="mb-0" method="GET" action="{% url 'showcase' %}">
+                        {% for tag in build.tags.all %}
+                        <button class="mt-1 btn {% if tag.name in request.GET.filters %}btn-secondary{% else %}btn-outline-secondary{% endif %}" type="submit" name="filters" value="{% if tag.name in request.GET.filters %}{{ request.GET.filters|exclude:tag.name }}{% else %}{{ request.GET.filters }}{{ tag.name }},{% endif %}" type="button">{{tag.name}}</button>{% endfor %}
+                    </form>
+                </div>
+            {% endif %}
         </div>
     </div>
 

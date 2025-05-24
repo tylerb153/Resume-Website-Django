@@ -43,7 +43,7 @@ def createBuild(request):
         form = BuildForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Uploaded Build Successful')
+            messages.success(request, 'Uploaded Build Successful! Please wait for approval.')
         else:
             messages.error(request, 'Upload Failed! Refresh and try again', extra_tags='danger') 
     return redirect('showcase')

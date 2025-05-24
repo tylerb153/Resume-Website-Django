@@ -1,7 +1,7 @@
 from django.contrib import admin
-from .models import Build, Tag, BuildTag
+from .models import Build, Tag, BuildTag, Image
 
-class BuildsInline(admin.TabularInline):
+class BuildTagInline(admin.TabularInline):
     model = BuildTag
     extra = 0
 
@@ -11,7 +11,7 @@ class BuildAdmin(admin.ModelAdmin):
     list_display = ['title', 'creator']
     list_filter = ['creator', 'tags', ]
     search_fields = ['title', 'creator', 'tags']
-    inlines = [BuildsInline]
+    inlines = [BuildTagInline]
 
 
 
@@ -19,4 +19,10 @@ class BuildAdmin(admin.ModelAdmin):
 class TagAdmin(admin.ModelAdmin):
     list_display = ['name']
     search_fields = ['name']
-    inlines = [BuildsInline]
+    inlines = [BuildTagInline]
+
+@admin.register(Image)
+class ImageAdmin(admin.ModelAdmin):
+    list_display = ['name']
+    list_filer = ['build']
+    search_fields = ['build']

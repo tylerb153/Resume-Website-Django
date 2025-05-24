@@ -31,9 +31,7 @@ def showcase(request):
     page_number = request.GET.get('page')
     builds = paginator.get_page(page_number)
     
-    tags = Tag.objects.all()
-
-    
+    tags = Tag.objects.all()    
 
     context = {'tags': tags, 'builds': builds}
     return render(request, 'showcase.html', context)

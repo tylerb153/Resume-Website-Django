@@ -9,33 +9,34 @@
     <!-- Mobile Sidebar -->
     <div class="d-flex flex-column d-lg-none py-3 justify-content-center bg-body-tertiary mobile-sidebar">
         <button class="btn btn-outline-primary w-100" data-bs-toggle="modal" data-bs-target="#NewBuildModel" type="button">
-            <p class="btn-p">+ Post a Build</p>
+            <p class="btn-p">+ Submit a Build</p>
         </button>
-        <form class="d-flex mt-3" role="search">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-            <button class="btn btn-outline-success" type="submit"><i class="bi bi-search"></i></button>
+        <form class="d-flex mt-3" role="search" method="GET" action="{% url 'showcase' %}">
+            <input class="form-control me-2" type="search" name="search" placeholder="Search" aria-label="Search" value="{{ request.GET.search }}">
+            <input type="hidden" name="filters" value="{{ request.GET.filters }}">
+            <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
 
         <button class="btn btn-secondary d-flex align-items-center justify-content-center" type="button" data-bs-toggle="collapse" data-bs-target="#filterDropdown" aria-expanded="false" aria-controls="collapseExample">
             <i class="bi bi-filter fs-3"></i>
-            <p class="btn-p ms-0">Sort and Filter</p>
+            <p class="btn-p ms-0">Filters</p>
         </button>
     </div>
     <hr class="d-lg-none my-0">
     <div class="collapse" id="filterDropdown">
         <div class="card card-body bg-body-tertiary mobile-sidebar">
             <div class="flex-column p-0">
-                <button class="btn btn-outline-secondary w-100" type="button">
+                {% comment %} <button class="btn btn-outline-secondary w-100" type="button">
                     <div class="container">
                         <p class="btn-p">Sort By</p>
                     </div>
-                </button>
-
-                <h3 class="mt-3 mx-auto" style="font-size: 28px">Filters</h3>
+                </button> {% endcomment %}
                 <div class="d-flex flex-wrap gap-2 mt-2">
+                    <form class="mb-0" method="GET" action="{% url 'showcase' %}">
+                    <input type="hidden" name="search" value="{{ request.GET.search }}">
                     {% for tag in tags %}
-                        <button class="btn btn-outline-secondary" type="button">{{tag.name}}</button>
-                    {% endfor %}
+                        <button class="mt-1 btn {% if tag.name in request.GET.filters %}btn-secondary{% else %}btn-outline-secondary{% endif %}" type="submit" name="filters" value="{% if tag.name in request.GET.filters %}{{ request.GET.filters|exclude:tag.name }}{% else %}{{ request.GET.filters }}{{ tag.name }},{% endif %}" type="button">{{tag.name}}</button>{% endfor %}
+                    </form>
                 </div>
             </div>
         </div>
@@ -53,7 +54,7 @@
         <!-- Sidebar -->
         <div class="d-none d-lg-flex flex-column bg-body-tertiary p-3 sidebar">
             <button class="btn btn-outline-primary w-100" data-bs-toggle="modal" data-bs-target="#NewBuildModel" type="button">
-                <p class="btn-p">+ Post a Build</p>
+                <p class="btn-p">+ Submit a Build</p>
             </button>
 
             <form class="d-flex mt-3" role="search" method="GET" action="{% url 'showcase' %}">

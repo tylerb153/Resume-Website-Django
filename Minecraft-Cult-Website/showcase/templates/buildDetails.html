@@ -14,7 +14,7 @@
                 <h2 class="fw-bold">More Builds</h2>
                 {% for build in builds %}
                 <a href="{% url 'buildDetails' build.id %}" class="d-block shadow mt-3 build-container text-reset text-decoration-none w-100" style="padding:.75rem">
-                    <img src={% static 'images/LogoBW.svg' %} class="w-100 build-image">
+                    <img src="{% if build.thumbnail.image %}{{ build.thumbnail.image.url }}{% else %}{% static 'images/LogoBW.svg' %}{% endif %}" onerror="this.src='{% static 'images/LogoBW.svg' %}'" class="w-100 build-image">
                     <hr>
                     <h5 class="mt-2 fs-4 build-details text-capitalize">{{build.title}}</h5>
                     <p class="mb-0 fst-italic build-details">{{build.creator}}</p>
@@ -36,17 +36,18 @@
             {% comment %} Carousel {% endcomment %}
             <div class="ratio ratio-4x3 mt-5 border border-black border-3 rounded">
                 <div id="buildImageCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="10000">
-                    <div class="carousel-indicators">
-                        <button type="button" data-bs-target="#buildImageCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                        <button type="button" data-bs-target="#buildImageCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <div class="carousel-indicators">                       
+                        {% for image in build.images.all %}
+                            <button type="button" data-bs-target="#buildImageCarousel" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %} aria-label="Slide 2"></button>
+                        {% endfor %}
                     </div>
                     <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <img src="{% static 'images/LogoBW.svg' %}" class="d-block w-100 h-100 object-fit-cover" alt="Image of build">
-                        </div>
-                        <div class="carousel-item">
-                            <img src="{% static 'images/LogoColor.svg' %}" class="d-block w-100 h-100 object-fit-cover" alt="Image of build">
-                        </div>
+                        {% for image in build.images.all %}
+                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                <img src="{{ image.image.url }}" class="d-block w-100 h-100 object-fit-cover" alt="Image of build">
+                            </div>
+                        {% endfor %}
+                        
                     </div>
                     <button class="carousel-control-prev" type="button" data-bs-target="#buildImageCarousel" data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>

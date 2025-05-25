@@ -1,4 +1,7 @@
 from django.db import models
+from django.conf import settings
+import os
+import shutil
 
 # Create your models here.
 class Tag(models.Model):
@@ -15,12 +18,17 @@ class Build(models.Model):
     coordsy = models.IntegerField(null=True, blank=True)
     coordsz = models.IntegerField(null=True, blank=True)
     tags = models.ManyToManyField(Tag, related_name='builds', through='BuildTag')
-    thumbnail = models.ForeignKey('Image', on_delete=models.SET_NULL, null=True, related_name='Thumbnail')
+
+    @property
+    def thumbnail(self):
+        return self.images.filter(thumbnail=True).first()
 
     def delete(self, *args, **kwargs):
-        if self.thumbnail:
-            self.thumbnail.delete()
+        imageFolder = os.path.join(settings.MEDIA_ROOT, 'builds', str(self.id))
         super().delete(*args, **kwargs)
+        if os.path.isdir(imageFolder):
+            shutil.rmtree(imageFolder)
+            
 
     def __str__(self):
         return self.title
@@ -33,14 +41,9 @@ def build_image_upload_path(instance, filename):
 
 class Image(models.Model):
     name = models.CharField(null=True, blank=True)
-    build = models.ForeignKey(Build, on_delete=models.CASCADE, related_name='images', null=True, blank=True)
+    build = models.ForeignKey(Build, on_delete=models.CASCADE, related_name='images')
     image = models.ImageField(upload_to=build_image_upload_path)
-
-    def save(self):
-        if self.build and not self.name :
-            self.name = self.build.title
-        
-        super().save()
+    thumbnail = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name

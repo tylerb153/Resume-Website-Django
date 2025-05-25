@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.contrib import messages
-from .models import Build, Tag
+from .models import Build, Tag, Image
 from .forms import BuildForm
 
 import random
@@ -33,17 +33,27 @@ def showcase(request):
     
     tags = Tag.objects.all()    
 
-    context = {'tags': tags, 'builds': builds}
+    context = {'tags': tags, 'builds': builds, }
     return render(request, 'showcase.html', context)
 
 def createBuild(request):
     if request.method == "POST":
         form = BuildForm(request.POST)
         if form.is_valid():
-            form.save()
+            build = form.save()
+
+            #Process the images uploaded
+            thumbnail = request.FILES['thumbnail']
+            Image.objects.create(name=thumbnail.name , build=build, image=thumbnail, thumbnail=True)
+
+            images = request.FILES.getlist('images') 
+            for image in images:
+                Image.objects.create(name=image.name, build=build, image=image, thumbnail=False)
+
             messages.success(request, 'Uploaded Build Successful! Please wait for approval.')
         else:
-            messages.error(request, 'Upload Failed! Refresh and try again', extra_tags='danger') 
+            messages.error(request, 'Upload Failed! Please refresh and try again', extra_tags='danger') 
+
     return redirect('showcase')
 
 def buildDetails(request, id):

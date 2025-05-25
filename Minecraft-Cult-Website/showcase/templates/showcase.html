@@ -126,7 +126,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form class="mb-0" method="POST" action="{% url 'createBuild' %}">
+                    <form class="mb-0" method="POST" enctype="multipart/form-data" action="{% url 'createBuild' %}">
                         {% csrf_token %}
                         <label for="build-title" class="col-form-label">Title:</label>
                         <input type="text" class="form-control" id="build-title" name="title" required>
@@ -151,6 +151,11 @@
                             
                         <label for="build-description" class="col-form-label">Description:</label>
                         <textarea class="form-control" id="build-description" name="description" required></textarea>
+                        
+                        <label for="build-thumbnail" class="col-form-label">Thumbnail:</label>
+                        <input type="file" id="build-thumbnail" class="form-control" accept="image/*" name="thumbnail" required>
+                        <label for="build-images" class="col-form-label">Additional Images:</label>
+                        <input type="file" id="build-images" class="form-control" accept="image/*" name="images" multiple>
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

@@ -4,6 +4,7 @@
 {% block title %}Build Showcase{% endblock %}
 {% block head %}
     <link rel="stylesheet" href="{% static 'showcase.css' %}">
+    <script src="{% static 'showcase.js' %}"></script>
 {% endblock%}
 {% block content %}
     <!-- Mobile Sidebar -->
@@ -11,8 +12,8 @@
         <button class="btn btn-outline-primary w-100" data-bs-toggle="modal" data-bs-target="#NewBuildModel" type="button">
             <p class="btn-p">+ Submit a Build</p>
         </button>
-        <form class="d-flex mt-3" role="search" method="GET" action="{% url 'showcase' %}">
-            <input class="form-control me-2" type="search" name="search" placeholder="Search" aria-label="Search" value="{{ request.GET.search }}">
+        <form class="d-flex mt-3" id="mobile-form" role="search" method="GET" action="{% url 'showcase' %}">
+            <input class="form-control me-2" id="mobile-search" type="search" name="search" placeholder="Search" aria-label="Search" value="{{ request.GET.search }}">
             <input type="hidden" name="filters" value="{{ request.GET.filters }}">
             <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
@@ -57,8 +58,8 @@
                 <p class="btn-p">+ Submit a Build</p>
             </button>
 
-            <form class="d-flex mt-3" role="search" method="GET" action="{% url 'showcase' %}">
-                <input class="form-control me-2" type="search" name="search" placeholder="Search" aria-label="Search" value="{{ request.GET.search }}">
+            <form class="d-flex mt-3" id="sidebar-form" role="search" method="GET" action="{% url 'showcase' %}">
+                <input class="form-control me-2" id="sidebar-search" type="search" name="search" placeholder="Search" aria-label="Search" value="{{ request.GET.search }}">
                 <input type="hidden" name="filters" value="{{ request.GET.filters }}">
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>

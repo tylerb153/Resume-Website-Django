@@ -13,7 +13,7 @@
             <div class="d-flex flex-column align-items-center w-100">
                 <h2 class="fw-bold">More Builds</h2>
                 {% for build in builds %}
-                <a href="{% url 'buildDetails' build.id %}" class="d-block shadow mt-3 build-container text-reset text-decoration-none w-100" style="padding:.75rem">
+                <a href="{% url 'buildDetails' build.id %}" class="d-block shadow mt-3 build-container text-reset text-decoration-none w-100" style="padding:.75rem; height: calc(200px + 2 * .75rem);">
                     <img src="{% if build.thumbnail.image %}{{ build.thumbnail.image.url }}{% else %}{% static 'images/LogoBW.svg' %}{% endif %}" onerror="this.src='{% static 'images/LogoBW.svg' %}'" class="w-100 build-image">
                     <hr>
                     <h5 class="mt-2 fs-4 build-details text-capitalize">{{build.title}}</h5>

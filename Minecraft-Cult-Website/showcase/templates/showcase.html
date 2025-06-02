@@ -128,13 +128,23 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form class="mb-0" method="POST" enctype="multipart/form-data" action="{% url 'createBuild' %}">
+                    <form class="mb-0 needs-validation" novalidate="" method="POST" enctype="multipart/form-data" action="{% url 'createBuild' %}">
                         {% csrf_token %}
-                        <label for="build-title" class="col-form-label">Title:</label>
-                        <input type="text" class="form-control" id="build-title" name="title" required>
+                        <div>
+                            <label for="build-title" class="col-form-label">Title:</label>
+                            <input type="text" class="form-control" id="build-title" name="title" required="">
+                            <div class="invalid-feedback">
+                                Please enter a title.
+                            </div>
+                        </div>
 
-                        <label for="build-creator" class="col-form-label">Creator:</label>
-                        <input type="text" class="form-control" id="build-creator" name="creator" required>
+                        <div>
+                            <label for="build-creator" class="col-form-label">Creator:</label>
+                            <input type="text" class="form-control" id="build-creator" name="creator" required="">
+                            <div class="invalid-feedback">
+                                Please enter a creator.
+                            </div>
+                        </div>
 
                         <div class="d-flex justify-content-between col-form-label">
                             <div class="d-flex flex-column w-25">
@@ -150,19 +160,55 @@
                                 <input type="number" class="form-control" id="build-coordsz" name="coordsz">
                             </div>
                         </div>
-                            
-                        <label for="build-description" class="col-form-label">Description:</label>
-                        <textarea class="form-control" id="build-description" name="description" required></textarea>
                         
-                        <label for="build-thumbnail" class="col-form-label">Thumbnail:</label>
-                        <input type="file" id="build-thumbnail" class="form-control" accept="image/*" name="thumbnail" required>
-                        <label for="build-images" class="col-form-label">Additional Images:</label>
-                        <input type="file" id="build-images" class="form-control" accept="image/*" name="images" multiple>
+                        <div>
+                            <label for="build-description" class="col-form-label">Description:</label>
+                            <textarea class="form-control" id="build-description" name="description" required=""></textarea>
+                            <div class="invalid-feedback">
+                                Please enter a description.
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="build-thumbnail" class="col-form-label">Thumbnail:</label>
+                            <input type="file" id="build-thumbnail" class="form-control" accept="image/*" name="thumbnail" required="">
+                            <div class="invalid-feedback">
+                                Please upload a thumbnail.
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="build-images" class="col-form-label">Additional Images:</label>
+                        </div>
+                        <div>
+                            <input type="file" id="build-images" class="form-control" accept="image/*" name="images" multiple>
+                        </div>
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-primary">Create Build Post</button>
                         </div>
+                        <script>
+                            // Example starter JavaScript for disabling form submissions if there are invalid fields
+                            (() => {
+                            'use strict'
+
+                            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                            const forms = document.querySelectorAll('.needs-validation')
+
+                            // Loop over them and prevent submission
+                            Array.from(forms).forEach(form => {
+                                form.addEventListener('submit', event => {
+                                if (!form.checkValidity()) {
+                                    event.preventDefault()
+                                    event.stopPropagation()
+                                }
+
+                                form.classList.add('was-validated')
+                                }, false)
+                            })
+                            })()
+                        </script>
                     </form>
                 </div>
             </div>

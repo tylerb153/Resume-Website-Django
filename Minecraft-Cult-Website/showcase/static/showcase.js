@@ -1,13 +1,22 @@
-// Submit the search form if the clear content
 document.addEventListener("DOMContentLoaded", function () {
+    // Submit the search form if the clear content
     const sidebarSearchInput = document.getElementById("sidebar-search");
     const sidebarForm = document.getElementById("sidebar-form");
 
     if (sidebarSearchInput && sidebarForm) {
+        let previousSidebarValue = sidebarSearchInput.value;
+        let sidebarWasClearedByMouse = false;
+
+        sidebarSearchInput.addEventListener("mousedown", function () {
+            sidebarWasClearedByMouse = true;
+        });
+
         sidebarSearchInput.addEventListener("input", function () {
-            if (this.value === "") {
+            if (previousSidebarValue !== "" && this.value === "" && sidebarWasClearedByMouse) {
                 sidebarForm.submit();
             }
+            previousSidebarValue = this.value;
+            sidebarWasClearedByMouse = false;
         });
     }
 
@@ -15,10 +24,19 @@ document.addEventListener("DOMContentLoaded", function () {
     const mobileForm = document.getElementById("mobile-form");
 
     if (mobileSearchInput && mobileForm) {
+        let previousMobileValue = mobileSearchInput.value;
+        let mobileWasClearedByMouse = false;
+
+        mobileSearchInput.addEventListener("mousedown", function () {
+            mobileWasClearedByMouse = true;
+        });
+
         mobileSearchInput.addEventListener("input", function () {
-            if (this.value === "") {
+            if (previousMobileValue !== "" && this.value === "" && mobileWasClearedByMouse) {
                 mobileForm.submit();
             }
+            previousMobileValue = this.value;
+            mobileWasClearedByMouse = false;
         });
     }
     // Tagify for the create build model
@@ -39,7 +57,3 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 });
-
-
-
-

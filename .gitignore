@@ -4,3 +4,4 @@ __pycache__
 BuildTestData.py
 .DS_Store
 Minecraft-Cult-Website/media
+migrations

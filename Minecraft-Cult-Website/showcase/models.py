@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.utils.text import slugify
 import os
 import shutil
 
@@ -18,10 +19,22 @@ class Build(models.Model):
     coordsy = models.IntegerField(null=True, blank=True)
     coordsz = models.IntegerField(null=True, blank=True)
     tags = models.ManyToManyField(Tag, related_name='builds', through='BuildTag')
+    slug = models.SlugField(unique=True, blank=True)
 
     @property
     def thumbnail(self):
         return self.images.filter(thumbnail=True).first()
+
+    def generateSlug(self, title: str):
+        slug = slugify(title)
+        uniqueSlug = slug
+        counter = 1
+
+        while len(self.__class__.objects.filter(slug__iexact=uniqueSlug)) > 0:
+            uniqueSlug = f'{slug}-{counter}'
+            counter += 1
+        
+        return uniqueSlug
 
     def delete(self, *args, **kwargs):
         imageFolder = os.path.join(settings.MEDIA_ROOT, 'builds', str(self.id))
@@ -29,6 +42,11 @@ class Build(models.Model):
         if os.path.isdir(imageFolder):
             shutil.rmtree(imageFolder)
             
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = self.generateSlug(self.title)
+        super().save(*args, **kwargs)
+        
 
     def __str__(self):
         return self.title

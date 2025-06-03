@@ -47,7 +47,7 @@ def createBuild(request):
 
             #Process the tags
             for tag in json.loads(request.POST['tagsInput']):
-                tag = tag["value"]
+                tag:str = tag["value"].capitalize()
                 existingTag = tags.filter(name__iexact=tag)
                 if existingTag:
                     BuildTag.objects.create(tag=existingTag.first(), build=build)
@@ -63,11 +63,11 @@ def createBuild(request):
 
     return redirect('showcase')
 
-def buildDetails(request, id):
+def buildDetails(request, slug):
     # Display the specific build
-    if id:
+    if slug:
         builds = Build.objects.all()
-        build = builds.filter(Q(id=id)).first()
+        build = builds.filter(Q(slug=slug)).first()
 
         builds = list(builds)
         builds.remove(build)

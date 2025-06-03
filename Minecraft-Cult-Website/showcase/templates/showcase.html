@@ -92,7 +92,7 @@
         <div class="container" style="max-width: 1700px; overflow-y: auto; height: 100%">
             <div class="row gap-2 ms-md-3 me-md-3 justify-content-center justify-content-lg-start">
                 {% for build in builds %}
-                    <a href="{% url 'buildDetails' build.id %}" class="col-auto shadow mt-3 build-container text-reset text-decoration-none">
+                    <a href="{% url 'buildDetails' build.slug %}" class="col-auto shadow mt-3 build-container text-reset text-decoration-none">
                         <img src="{% if build.thumbnail.image %}{{ build.thumbnail.image.url }}{% else %}{% static 'images/LogoBW.svg' %}{% endif %}" onerror="this.src='{% static 'images/LogoBW.svg' %}'" class="w-100 build-image">
                         <hr>
                         <h5 class="mt-2 fs-4 build-details text-capitalize">{{build.title}}</h5>

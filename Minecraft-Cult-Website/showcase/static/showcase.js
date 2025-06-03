@@ -21,4 +21,25 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     }
+    // Tagify for the create build model
+    const input = document.querySelector('input[name="tagsInput"]');
+    if (input) {
+        const tags = JSON.parse(document.getElementById('tags').textContent);
+        tagify = new Tagify(input, {
+            whitelist: tags,
+            maxTags: 10,
+            dropdown: {
+                maxItems: 20,
+                classname: 'tags-look',
+                enabled: 0,
+                closeOnSelect: false
+            }
+        });
+    }
+
+
 });
+
+
+
+

@@ -23,8 +23,8 @@ function changeStatus(data) {
     console.log(data)
     statusIcons = document.querySelectorAll('.StatusIcon');
     statusTexts = document.querySelectorAll('.StatusText');
-    console.log(statusIcons)
-    console.log(statusTexts)
+    // console.log(statusIcons)
+    // console.log(statusTexts)
     if (data.online) {
         for (icon of statusIcons) {
             icon.classList.remove('bi-x-circle-fill');

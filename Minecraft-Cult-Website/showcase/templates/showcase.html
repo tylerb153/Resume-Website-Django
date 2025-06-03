@@ -4,7 +4,15 @@
 {% block title %}Build Showcase{% endblock %}
 {% block head %}
     <link rel="stylesheet" href="{% static 'showcase.css' %}">
+    {{ tags|json_script:"tags" }}
     <script src="{% static 'showcase.js' %}"></script>
+
+    {% comment %} Tagify CDN {% endcomment %}
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+
+
 {% endblock%}
 {% block content %}
     <!-- Mobile Sidebar -->
@@ -35,8 +43,8 @@
                 <div class="d-flex flex-wrap gap-2 mt-2">
                     <form class="mb-0" method="GET" action="{% url 'showcase' %}">
                     <input type="hidden" name="search" value="{{ request.GET.search }}">
-                    {% for tag in tags %}
-                        <button class="mt-1 btn {% if tag.name in request.GET.filters %}btn-secondary{% else %}btn-outline-secondary{% endif %}" type="submit" name="filters" value="{% if tag.name in request.GET.filters %}{{ request.GET.filters|exclude:tag.name }}{% else %}{{ request.GET.filters }}{{ tag.name }},{% endif %}" type="button">{{tag.name}}</button>{% endfor %}
+                    {% for tagname in tags %}
+                        <button class="mt-1 btn {% if tagname in request.GET.filters %}btn-secondary{% else %}btn-outline-secondary{% endif %}" type="submit" name="filters" value="{% if tagname in request.GET.filters %}{{ request.GET.filters|exclude:tagname }}{% else %}{{ request.GET.filters }}{{ tagname }},{% endif %}" type="button">{{tagname}}</button>{% endfor %}
                     </form>
                 </div>
             </div>
@@ -74,8 +82,8 @@
             <div class="d-flex flex-wrap gap-2 mt-2">
                 <form class="mb-0" method="GET" action="{% url 'showcase' %}">
                 <input type="hidden" name="search" value="{{ request.GET.search }}">
-                {% for tag in tags %}
-                    <button class="mt-1 btn {% if tag.name in request.GET.filters %}btn-secondary{% else %}btn-outline-secondary{% endif %}" type="submit" name="filters" value="{% if tag.name in request.GET.filters %}{{ request.GET.filters|exclude:tag.name }}{% else %}{{ request.GET.filters }}{{ tag.name }},{% endif %}" type="button">{{tag.name}}</button>{% endfor %}
+                {% for tagname in tags %}
+                    <button class="mt-1 btn {% if tagname in request.GET.filters %}btn-secondary{% else %}btn-outline-secondary{% endif %}" type="submit" name="filters" value="{% if tagname in request.GET.filters %}{{ request.GET.filters|exclude:tagname }}{% else %}{{ request.GET.filters }}{{ tagname }},{% endif %}" type="button">{{tagname}}</button>{% endfor %}
                 </form>
             </div>
         </div>
@@ -179,9 +187,13 @@
 
                         <div>
                             <label for="build-images" class="col-form-label">Additional Images:</label>
-                        </div>
-                        <div>
                             <input type="file" id="build-images" class="form-control" accept="image/*" name="images" multiple>
+                        </div>
+
+                        {% comment %} Tagify tags {% endcomment %}
+                        <div>
+                            <label for="build-tags" class="col-form-label">Tags:</label>
+                            <input name="tagsInput" id="build-tags" class="form-control" placeholder="Please enter build tags" >
                         </div>
 
                         <div class="modal-footer">

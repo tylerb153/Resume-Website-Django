@@ -2,10 +2,11 @@ from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.contrib import messages
-from .models import Build, Tag, Image
+from .models import Build, Tag, Image, BuildTag
 from .forms import BuildForm
 
 import random
+import json
 
 # Create your views here.
 def showcase(request):
@@ -23,7 +24,8 @@ def showcase(request):
     page_number = request.GET.get('page')
     builds = paginator.get_page(page_number)
     
-    tags = Tag.objects.all()    
+    tags = Tag.objects.all()
+    tags = list(tags.values_list("name", flat=True))
 
     context = {'tags': tags, 'builds': builds, }
     return render(request, 'showcase.html', context)
@@ -31,6 +33,7 @@ def showcase(request):
 def createBuild(request):
     if request.method == "POST":
         form = BuildForm(request.POST)
+        tags = Tag.objects.all()
         if form.is_valid():
             build = form.save()
 
@@ -41,6 +44,18 @@ def createBuild(request):
             images = request.FILES.getlist('images') 
             for image in images:
                 Image.objects.create(name=image.name, build=build, image=image, thumbnail=False)
+
+            #Process the tags
+            for tag in json.loads(request.POST['tagsInput']):
+                tag = tag["value"]
+                existingTag = tags.filter(name__iexact=tag)
+                if existingTag:
+                    BuildTag.objects.create(tag=existingTag.first(), build=build)
+                else:
+                    tag = Tag.objects.create(name=tag)
+                    BuildTag.objects.create(tag=tag, build=build)
+
+
 
             messages.success(request, 'Uploaded Build Successful! Please wait for approval.')
         else:

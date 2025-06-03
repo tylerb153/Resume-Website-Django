@@ -44,7 +44,7 @@
                     <div class="carousel-inner">
                         {% for image in build.images.all %}
                             <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                                <img src="{{ image.image.url }}" class="d-block w-100 h-100 object-fit-cover" alt="Image of build">
+                                <img src="{{ image.image.url }}" class="d-block w-100 h-100 object-fit-cover" data-bs-toggle="modal" data-bs-target="#imageModal" data-slide-index="{{ forloop.counter0 }}" alt="Image of build">
                             </div>
                         {% endfor %}
                         
@@ -73,5 +73,54 @@
             {% endif %}
         </div>
     </div>
+    <!-- Large Carousel Modal -->
+    <div class="modal fade" id="imageModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Build Images</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="buildImageModalCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="10000">
+                        <div class="carousel-indicators">                       
+                            {% for image in build.images.all %}
+                                <button type="button" data-bs-target="#buildImageModalCarousel" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %} aria-label="Slide 2"></button>
+                            {% endfor %}
+                        </div>
+                        <div class="carousel-inner">
+                            {% for image in build.images.all %}
+                                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                    <img src="{{ image.image.url }}" class="d-block w-100 object-fit-contain" style="max-height: calc(100vh - 150px);" alt="Image of build">
+                                </div>
+                            {% endfor %}
+                            
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#buildImageModalCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#buildImageModalCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const modalCarouselEl = document.getElementById('buildImageModalCarousel');
+            const modalCarousel = bootstrap.Carousel.getOrCreateInstance(modalCarouselEl);
+    
+            document.querySelectorAll('#buildImageCarousel img[data-slide-index]').forEach(img => {
+                img.addEventListener('click', function () {
+                    const index = parseInt(this.dataset.slideIndex, 10);
+                    modalCarousel.to(index);
+                });
+            });
+        });
+    </script>
 {% endblock %}

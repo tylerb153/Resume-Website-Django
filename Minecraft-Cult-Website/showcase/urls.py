@@ -4,6 +4,5 @@ from . import views
 urlpatterns = [
     path("", views.showcase, name="showcase"),
     path("NewBuild", views.createBuild, name='createBuild'),
-    # TODO: Change this int:id to be a slug
     path("<slug:slug>", views.buildDetails, name='buildDetails'),
 ]

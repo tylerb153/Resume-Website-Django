@@ -22,7 +22,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('', views.base, name='base'),
-    path('builds/', include('showcase.urls')),
     path('admin/', admin.site.urls),
+    path('', views.base, name='home'),
+    path('map/', views.mapPage, name='map'),
+    path('builds/', include('showcase.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

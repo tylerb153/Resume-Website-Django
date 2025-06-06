@@ -1,3 +1,7 @@
 .footer {
     bottom: 0px;
 }
+
+.nav-no-hover-color:hover, .no-hover:focus {
+    color: var(--bs-nav-link-color);
+}

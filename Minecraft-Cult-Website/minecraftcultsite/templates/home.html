@@ -2,11 +2,34 @@
 {% load static %}
 
 {% block title %}Home{% endblock %}
-
+{% block head %}
+    <link rel="stylesheet" href="{% static 'showcase.css' %}">
+{% endblock %}
 {% block content %}
     <div class="container-fluid">
         {% comment %} Builds Recent/Featured {% endcomment %}
-        
+        <div class="d-flex flex-column bg-body-tertiary border p-2 px-3 m-2 shadow" style="max-width: 25%;">
+            <h2 class="mb-0">Recent Build</h2>
+            <hr>
+            <a {% comment %} href="{% url 'buildDetails' build.slug %}"{% endcomment %} class="d-block text-reset text-decoration-none w-100" style="padding:.75rem; min-height: calc(200px + 2 * .75rem); max-height: calc(200px + 2 * .75rem);">
+                <img src="{% if recentBuild.thumbnail.image %}{{ recentBuild.thumbnail.image.url }}{% else %}{% static 'images/LogoBW.svg' %}{% endif %}" onerror="this.src='{% static 'images/LogoBW.svg' %}'" class="w-100 build-image">
+                <hr>
+                <h5 class="mt-2 fs-4 build-details text-capitalize">{{recentBuild.title}}</h5>
+                <p class="mb-0 fst-italic build-details">{{recentBuild.creator}}</p>
+            </a>
+        </div>
+
+        <div class="d-flex flex-column bg-body-tertiary border p-2 px-3 m-2 shadow" style="max-width: 25%;">
+            <h2 class="mb-0">Featured Build</h2>
+            <hr>
+            <a {% comment %} href="{% url 'buildDetails' build.slug %}"{% endcomment %} class="d-block text-reset text-decoration-none w-100" style="padding:.75rem; min-height: calc(200px + 2 * .75rem); max-height: calc(200px + 2 * .75rem);">
+                <img src="{% if featuredBuild.thumbnail.image %}{{ featuredBuild.thumbnail.image.url }}{% else %}{% static 'images/LogoBW.svg' %}{% endif %}" onerror="this.src='{% static 'images/LogoBW.svg' %}'" class="w-100 build-image">
+                <hr>
+                <h5 class="mt-2 fs-4 build-details text-capitalize">{{featuredBuild.title}}</h5>
+                <p class="mb-0 fst-italic build-details">{{featuredBuild.creator}}</p>
+            </a>
+        </div>
+
         {% comment %} Server Info {% endcomment %}
         <div class="d-flex flex-column bg-body-tertiary border p-2 px-3 m-2 shadow" style="max-width: 25%;">
             <h2 class="mb-0">Server Info</h2>

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        {% comment %} Builds Recent/Featured {% endcomment %}
+        
+        {% comment %} Server Info {% endcomment %}
+        <div class="d-flex flex-column bg-body-tertiary border p-2 px-3 m-2 shadow" style="max-width: 25%;">
+            <h2 class="mb-0">Server Info</h2>
+            <hr>
+            <a class="mx-auto nav-link text-decoration-underline" href="{% url 'home' %}">mc.theminecraftcult.com</a>
+            <div class="d-flex justify-content-between">
+                <p class="mb-0">Status: <span class="text-success">Online</span></p>
+                <p class="mb-0" id="version-label">Version: 1.21.5</p>
+            </div>
+            <hr>
+            <p class="mb-0">Players:</p>
+            <ul class="list-unstyled mb-0 border">
+                <div class="overflow-y-auto" style="max-height: 110px">
+                    <li><i class="bi bi-person-fill me-1"></i>Username</li>
+                    <li><i class="bi bi-person-fill me-1"></i>Username</li>
+                    <li><i class="bi bi-person-fill me-1"></i>Username</li>
+                    <li><i class="bi bi-person-fill me-1"></i>Username</li>
+                    <li><i class="bi bi-person-fill me-1"></i>Username</li>
+                    <li><i class="bi bi-person-fill me-1"></i>Username</li>
+                </div>
+            </ul>
+            
+        </div>
+        {% comment %} Image Carousel {% endcomment %}
+
+    </div>
+{% endblock %}

@@ -1,9 +1,20 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 import requests
+from showcase.models import Build
+
+import datetime
+import random
 
 # Create your views here.
 def home(request):
-    return render(request, 'home.html')
+    global featuredBuild
+    
+    updateFeaturedBuild()
+    # We are going to get the most recent build here for use in the recent build tile
+    recentBuild = Build.objects.last()
+    
+    context = {'recentBuild': recentBuild, 'featuredBuild': featuredBuild}
+    return render(request, 'home.html', context=context)
 
 def mapPage(request):
     try:
@@ -19,3 +30,30 @@ def mapPage(request):
     queryString = request.META.get('QUERY_STRING', '')    
 
     return render(request, 'map.html', context={"map_link": map_link, "queryString":queryString})
+
+
+# Figure out if a new featured build needs to be selected in order to make sure it only change once per day
+def updateFeaturedBuild():
+    global featuredBuild
+    global dateUpdated
+
+    # Here we set up the globals if they don't have a value already
+    try:
+        if featuredBuild:
+            pass
+    except:
+        featuredBuild = None
+
+    try:
+        if dateUpdated:
+            pass
+    except:
+        dateUpdated = None
+
+
+    if dateUpdated != datetime.date.today():
+        dateUpdated = datetime.date.today()
+        
+        builds = list(Build.objects.all())
+
+        featuredBuild = random.choice(builds)

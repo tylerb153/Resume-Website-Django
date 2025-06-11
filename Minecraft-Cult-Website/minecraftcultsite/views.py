@@ -1,6 +1,6 @@
 from django.shortcuts import render
 import requests
-from showcase.models import Build
+from showcase.models import Build, Image
 
 import datetime
 import random
@@ -12,8 +12,9 @@ def home(request):
     updateFeaturedBuild()
     # We are going to get the most recent build here for use in the recent build tile
     recentBuild = Build.objects.last()
+    images = getRandomImages()
     
-    context = {'recentBuild': recentBuild, 'featuredBuild': featuredBuild}
+    context = {'recentBuild': recentBuild, 'featuredBuild': featuredBuild, 'images':images}
     return render(request, 'home.html', context=context)
 
 def mapPage(request):
@@ -57,3 +58,7 @@ def updateFeaturedBuild():
         builds = list(Build.objects.all())
 
         featuredBuild = random.choice(builds)
+
+def getRandomImages() -> list[Image]:
+
+    return random.choices(Image.objects.all(), k=10)

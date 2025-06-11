@@ -11,7 +11,7 @@
         <div class="d-flex flex-column bg-body-tertiary border p-2 px-3 m-2 shadow" style="max-width: 25%;">
             <h2 class="mb-0">Recent Build</h2>
             <hr>
-            <a {% comment %} href="{% url 'buildDetails' build.slug %}"{% endcomment %} class="d-block text-reset text-decoration-none w-100" style="padding:.75rem; min-height: calc(200px + 2 * .75rem); max-height: calc(200px + 2 * .75rem);">
+            <a href="{% url 'buildDetails' recentBuild.slug %}" class="d-block text-reset text-decoration-none w-100" style="padding:.75rem; min-height: calc(200px + 2 * .75rem); max-height: calc(200px + 2 * .75rem);">
                 <img src="{% if recentBuild.thumbnail.image %}{{ recentBuild.thumbnail.image.url }}{% else %}{% static 'images/LogoBW.svg' %}{% endif %}" onerror="this.src='{% static 'images/LogoBW.svg' %}'" class="w-100 build-image">
                 <hr>
                 <h5 class="mt-2 fs-4 build-details text-capitalize">{{recentBuild.title}}</h5>
@@ -22,7 +22,7 @@
         <div class="d-flex flex-column bg-body-tertiary border p-2 px-3 m-2 shadow" style="max-width: 25%;">
             <h2 class="mb-0">Featured Build</h2>
             <hr>
-            <a {% comment %} href="{% url 'buildDetails' build.slug %}"{% endcomment %} class="d-block text-reset text-decoration-none w-100" style="padding:.75rem; min-height: calc(200px + 2 * .75rem); max-height: calc(200px + 2 * .75rem);">
+            <a href="{% url 'buildDetails' featuredBuild.slug %}" class="d-block text-reset text-decoration-none w-100" style="padding:.75rem; min-height: calc(200px + 2 * .75rem); max-height: calc(200px + 2 * .75rem);">
                 <img src="{% if featuredBuild.thumbnail.image %}{{ featuredBuild.thumbnail.image.url }}{% else %}{% static 'images/LogoBW.svg' %}{% endif %}" onerror="this.src='{% static 'images/LogoBW.svg' %}'" class="w-100 build-image">
                 <hr>
                 <h5 class="mt-2 fs-4 build-details text-capitalize">{{featuredBuild.title}}</h5>
@@ -54,6 +54,38 @@
             
         </div>
         {% comment %} Image Carousel {% endcomment %}
-
+        <div class="d-flex flex-column bg-body-tertiary border p-2 px-3 m-2 shadow" style="max-width: 25%">
+            <h2 class="mb-0">Images</h2>
+            <hr>
+            <div>
+                <div class="ratio ratio-4x3 border border-black border-1 rounded">
+                    <div id="buildImageCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="10000">
+                        <div class="carousel-indicators">                       
+                            {% for image in images %}
+                                <button type="button" data-bs-target="#buildImageCarousel" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %} aria-label="Slide 2"></button>
+                            {% endfor %}
+                        </div>
+                        <div class="carousel-inner">
+                            {% for image in images %}
+                                <a href="{% url 'buildDetails' image.build.slug %}">
+                                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                        <img src="{{ image.image.url }}" class="d-block w-100 h-100 object-fit-cover" data-bs-toggle="modal" data-bs-target="#imageModal" data-slide-index="{{ forloop.counter0 }}" alt="Image of build">
+                                    </div>
+                                </a>
+                            {% endfor %}
+                            
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#buildImageCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#buildImageCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}

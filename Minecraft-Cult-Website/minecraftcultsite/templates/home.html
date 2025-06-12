@@ -4,85 +4,95 @@
 {% block title %}Home{% endblock %}
 {% block head %}
     <link rel="stylesheet" href="{% static 'showcase.css' %}">
+    <script src="{% static 'js/home.js' %}"></script>
 {% endblock %}
 {% block content %}
-    <div class="container-fluid">
-        {% comment %} Builds Recent/Featured {% endcomment %}
-        <div class="d-flex flex-column bg-body-tertiary border p-2 px-3 m-2 shadow" style="max-width: 25%;">
-            <h2 class="mb-0">Recent Build</h2>
-            <hr>
-            <a href="{% url 'buildDetails' recentBuild.slug %}" class="d-block text-reset text-decoration-none w-100" style="padding:.75rem; min-height: calc(200px + 2 * .75rem); max-height: calc(200px + 2 * .75rem);">
-                <img src="{% if recentBuild.thumbnail.image %}{{ recentBuild.thumbnail.image.url }}{% else %}{% static 'images/LogoBW.svg' %}{% endif %}" onerror="this.src='{% static 'images/LogoBW.svg' %}'" class="w-100 build-image">
-                <hr>
-                <h5 class="mt-2 fs-4 build-details text-capitalize">{{recentBuild.title}}</h5>
-                <p class="mb-0 fst-italic build-details">{{recentBuild.creator}}</p>
-            </a>
-        </div>
-
-        <div class="d-flex flex-column bg-body-tertiary border p-2 px-3 m-2 shadow" style="max-width: 25%;">
-            <h2 class="mb-0">Featured Build</h2>
-            <hr>
-            <a href="{% url 'buildDetails' featuredBuild.slug %}" class="d-block text-reset text-decoration-none w-100" style="padding:.75rem; min-height: calc(200px + 2 * .75rem); max-height: calc(200px + 2 * .75rem);">
-                <img src="{% if featuredBuild.thumbnail.image %}{{ featuredBuild.thumbnail.image.url }}{% else %}{% static 'images/LogoBW.svg' %}{% endif %}" onerror="this.src='{% static 'images/LogoBW.svg' %}'" class="w-100 build-image">
-                <hr>
-                <h5 class="mt-2 fs-4 build-details text-capitalize">{{featuredBuild.title}}</h5>
-                <p class="mb-0 fst-italic build-details">{{featuredBuild.creator}}</p>
-            </a>
-        </div>
-
-        {% comment %} Server Info {% endcomment %}
-        <div class="d-flex flex-column bg-body-tertiary border p-2 px-3 m-2 shadow" style="max-width: 25%;">
-            <h2 class="mb-0">Server Info</h2>
-            <hr>
-            <a class="mx-auto nav-link text-decoration-underline" href="{% url 'home' %}">mc.theminecraftcult.com</a>
-            <div class="d-flex justify-content-between">
-                <p class="mb-0">Status: <span class="text-success">Online</span></p>
-                <p class="mb-0" id="version-label">Version: 1.21.5</p>
-            </div>
-            <hr>
-            <p class="mb-0">Players:</p>
-            <ul class="list-unstyled mb-0 border">
-                <div class="overflow-y-auto" style="max-height: 110px">
-                    <li><i class="bi bi-person-fill me-1"></i>Username</li>
-                    <li><i class="bi bi-person-fill me-1"></i>Username</li>
-                    <li><i class="bi bi-person-fill me-1"></i>Username</li>
-                    <li><i class="bi bi-person-fill me-1"></i>Username</li>
-                    <li><i class="bi bi-person-fill me-1"></i>Username</li>
-                    <li><i class="bi bi-person-fill me-1"></i>Username</li>
+    <div class="container-xxl" style="min-height: calc(100% - 109px);">
+        <div class="row p-5">
+            {% comment %} Featured Build {% endcomment %}
+            <div class="col-12 col-md-6 d-flex" id="featured-build-tile">
+                <div class="d-flex flex-column bg-body-tertiary border p-2 px-3 shadow flex-grow-1">
+                    <h2 class="mb-0">Featured Build</h2>
+                    <hr>
+                    <a href="{% url 'buildDetails' featuredBuild.slug %}" class="d-block text-reset text-decoration-none w-100">
+                        <img src="{% if featuredBuild.thumbnail.image %}{{ featuredBuild.thumbnail.image.url }}{% else %}{% static 'images/LogoBW.svg' %}{% endif %}" onerror="this.src='{% static 'images/LogoBW.svg' %}'" class="w-100 build-image">
+                        <hr>
+                        <h5 class="mt-2 fs-4 build-details text-capitalize">{{featuredBuild.title}}</h5>
+                        <p class="mb-0 fst-italic build-details">{{featuredBuild.creator}}</p>
+                    </a>
                 </div>
-            </ul>
-            
-        </div>
-        {% comment %} Image Carousel {% endcomment %}
-        <div class="d-flex flex-column bg-body-tertiary border p-2 px-3 m-2 shadow" style="max-width: 25%">
-            <h2 class="mb-0">Images</h2>
-            <hr>
-            <div>
-                <div class="ratio ratio-4x3 border border-black border-1 rounded">
-                    <div id="buildImageCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="10000">
-                        <div class="carousel-indicators">                       
-                            {% for image in images %}
-                                <button type="button" data-bs-target="#buildImageCarousel" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %} aria-label="Slide 2"></button>
-                            {% endfor %}
+            </div>
+
+            {% comment %} Server Info {% endcomment %}
+            <div class="col-12 col-md-6 d-flex">
+                <div class="d-flex flex-column bg-body-tertiary border p-2 px-3 shadow flex-grow-1">
+                    <h2 class="mb-0">Server Info</h2>
+                    <hr>
+                    <a class="mx-auto nav-link text-decoration-underline" href="{% url 'home' %}">mc.theminecraftcult.com</a>
+                    <div class="d-flex justify-content-between">
+                        <p class="mb-0">Status: <span class="text-success">Online</span></p>
+                        <p class="mb-0" id="version-label">Version: 1.21.5</p>
+                    </div>
+                    <hr>
+                    <p class="mb-0">Players:</p>
+                    <ul class="list-unstyled mb-0 border d-flex h-100">
+                        <div class="overflow-y-auto" style="">
+                            <li><i class="bi bi-person-fill me-1"></i>Username</li>
+                            <li><i class="bi bi-person-fill me-1"></i>Username</li>
+                            <li><i class="bi bi-person-fill me-1"></i>Username</li>
+                            <li><i class="bi bi-person-fill me-1"></i>Username</li>
+                            <li><i class="bi bi-person-fill me-1"></i>Username</li>
+                            <li><i class="bi bi-person-fill me-1"></i>Username</li>
                         </div>
-                        <div class="carousel-inner">
-                            {% for image in images %}
+                    </ul>
+                </div>
+            </div>
+            
+            {% comment %} Recent Build {% endcomment %}
+            <div class="col-12 col-md-6 d-flex">
+                <div class="d-flex flex-column bg-body-tertiary border p-2 px-3 shadow">
+                    <h2 class="mb-0">Recent Build</h2>
+                    <hr>
+                    <a href="{% url 'buildDetails' recentBuild.slug %}" class="d-block text-reset text-decoration-none w-100">
+                        <img src="{% if recentBuild.thumbnail.image %}{{ recentBuild.thumbnail.image.url }}{% else %}{% static 'images/LogoBW.svg' %}{% endif %}" onerror="this.src='{% static 'images/LogoBW.svg' %}'" class="w-100 build-image">
+                        <hr>
+                        <h5 class="mt-2 fs-4 build-details text-capitalize">{{recentBuild.title}}</h5>
+                        <p class="mb-0 fst-italic build-details">{{recentBuild.creator}}</p>
+                    </a>
+                </div>
+            </div>
+
+            {% comment %} Image Carousel {% endcomment %}
+            <div class="col-12 col-md-6 d-flex" id='img-carousel-tile'>
+                <div class="d-flex flex-column bg-body-tertiary border p-2 px-3 w-100 shadow justify-content-center">
+                    <h2 class="mb-0">Images</h2>
+                    <hr>
+                    <div class="ratio ratio-4x3 border border-black border-1 rounded">
+                        <div id="buildImageCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="10000">
+                            <div class="carousel-indicators">                       
+                                {% for image in images %}
+                                <button type="button" data-bs-target="#buildImageCarousel" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %} aria-label="Slide 2"></button>
+                                {% endfor %}
+                            </div>
+                            <div class="carousel-inner">
+                                {% for image in images %}
                                 <a href="{% url 'buildDetails' image.build.slug %}">
                                     <div class="carousel-item {% if forloop.first %}active{% endif %}">
                                         <img src="{{ image.image.url }}" class="d-block w-100 h-100 object-fit-cover" data-bs-toggle="modal" data-bs-target="#imageModal" data-slide-index="{{ forloop.counter0 }}" alt="Image of build">
                                     </div>
                                 </a>
-                            {% endfor %}
-                            
+                                {% endfor %}
+                                
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#buildImageCarousel" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#buildImageCarousel" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
                         </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#buildImageCarousel" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#buildImageCarousel" data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
                     </div>
                 </div>
             </div>

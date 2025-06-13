@@ -4,11 +4,12 @@
 {% block title %}Home{% endblock %}
 {% block head %}
     <link rel="stylesheet" href="{% static 'showcase.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
     <script src="{% static 'js/home.js' %}"></script>
 {% endblock %}
 {% block content %}
-    <div class="container-xxl" style="min-height: calc(100% - 109px);">
-        <div class="row p-5">
+    <div class="container-xxl p-5 position-relative" style="min-height: calc(100% - 77px);">
+        <div class="row g-5">
             {% comment %} Featured Build {% endcomment %}
             <div class="col-12 col-md-6 d-flex" id="featured-build-tile">
                 <div class="d-flex flex-column bg-body-tertiary border p-2 px-3 shadow flex-grow-1">
@@ -47,7 +48,7 @@
                     </ul>
                 </div>
             </div>
-            
+
             {% comment %} Recent Build {% endcomment %}
             <div class="col-12 col-md-6 d-flex">
                 <div class="d-flex flex-column bg-body-tertiary border p-2 px-3 shadow">
@@ -97,5 +98,8 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="position-absolute me-5 top-0 start-0 h-100 w-100 overflow-hidden pe-none z-n1 background-div" style="background-image: url({% static 'images/homeBackground.png' %});">
+        <iframe class="background-iframe" src="https://map.tymler.com/?worldname=world&mapname=surface&zoom=5&x=189&y=64&z=4&nogui=true" tabindex="-1" id="background-iframe" style="width: 150%; height: 150%;"></iframe>
     </div>
 {% endblock %}

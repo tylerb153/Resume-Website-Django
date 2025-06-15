@@ -8,8 +8,8 @@
     <script src="{% static 'js/home.js' %}"></script>
 {% endblock %}
 {% block content %}
-    <div class="container-xxl p-5" style="min-height: calc(100% - 77px);">
-        <div class="row g-5">
+    <div class="container-xxl p-3 p-lg-5" style="min-height: calc(100% - 77px);">
+        <div class="row g-3 g-lg-5">
             {% comment %} Featured Build {% endcomment %}
             <div class="col-12 col-md-6 d-flex" id="featured-build-tile">
                 <div class="d-flex flex-column bg-body-tertiary border p-2 px-3 shadow flex-grow-1">
@@ -25,25 +25,22 @@
             </div>
 
             {% comment %} Server Info {% endcomment %}
-            <div class="col-12 col-md-6 d-flex">
+            <div class="col-12 col-md-6 d-flex" style="min-height: 325px;">
                 <div class="d-flex flex-column bg-body-tertiary border p-2 px-3 shadow flex-grow-1">
                     <h2 class="mb-0">Server Info</h2>
                     <hr>
                     <a class="mx-auto nav-link text-decoration-underline" href="{% url 'home' %}">mc.theminecraftcult.com</a>
                     <div class="d-flex justify-content-between">
-                        <p class="mb-0">Status: <span class="text-success">Online</span></p>
-                        <p class="mb-0" id="version-label">Version: 1.21.5</p>
+                        <p class="mb-0">Status: <span class="text-danger" id="serverStatus"></span></p>
+                        <p class="mb-0" id="version-label"></p>
                     </div>
                     <hr>
-                    <p class="mb-0">Players:</p>
+                    <div class="d-flex justify-content-between">
+                        <p class="mb-0">Players:</p>
+                        <p class="mb-0" id="serverPlayersLabel"></p>
+                    </div>
                     <ul class="list-unstyled mb-0 border d-flex h-100">
-                        <div class="overflow-y-auto" style="">
-                            <li><i class="bi bi-person-fill me-1"></i>Username</li>
-                            <li><i class="bi bi-person-fill me-1"></i>Username</li>
-                            <li><i class="bi bi-person-fill me-1"></i>Username</li>
-                            <li><i class="bi bi-person-fill me-1"></i>Username</li>
-                            <li><i class="bi bi-person-fill me-1"></i>Username</li>
-                            <li><i class="bi bi-person-fill me-1"></i>Username</li>
+                        <div class="overflow-y-auto" id="serverPlayersList">
                         </div>
                     </ul>
                 </div>
@@ -100,6 +97,6 @@
         </div>
     </div>
     <div class="position-fixed me-5 top-0 start-0 h-100 w-100 overflow-hidden pe-none z-n1 background-div" style="background-image: url({% static 'images/homeBackground.png' %});">
-        <iframe class="background-iframe" src="https://map.tymler.com/?worldname=world&mapname=surface&zoom=5&x=189&y=64&z=4&nogui=true" tabindex="-1" id="background-iframe" style="width: 150%; height: 150%;"></iframe>
+        {% comment %} <iframe class="background-iframe" src="https://map.tymler.com/?worldname=world&mapname=surface&zoom=5&x=189&y=64&z=4&nogui=true" tabindex="-1" id="background-iframe" style="width: 150%; height: 150%;"></iframe> {% endcomment %}
     </div>
 {% endblock %}

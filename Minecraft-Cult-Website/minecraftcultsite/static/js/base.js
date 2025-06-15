@@ -1,6 +1,6 @@
 const url = "https://api.mcstatus.io/v2/status/java/mc.theminecraftcult.com"
 
-getStatus();
+document.addEventListener('DOMContentLoaded', getStatus())
 setInterval(getStatus, 30000); 
 
 function getStatus() {
@@ -13,6 +13,7 @@ function getStatus() {
     })
     .then(data => {
         changeStatus(data);
+        window.dispatchEvent(new CustomEvent('ServerInfoLoaded', { detail: data }));
     })
     .catch(error => {
         console.error('Error: ', error);
@@ -20,7 +21,7 @@ function getStatus() {
 }
 
 function changeStatus(data) {
-    console.log(data)
+    // console.log(data)
     statusIcons = document.querySelectorAll('.StatusIcon');
     statusTexts = document.querySelectorAll('.StatusText');
     // console.log(statusIcons)

@@ -11,7 +11,7 @@ def home(request):
     
     updateFeaturedBuild()
     # We are going to get the most recent build here for use in the recent build tile
-    recentBuild = Build.objects.last()
+    recentBuild = Build.objects.filter(accepted=True).last()
     images = getRandomImages()
     
     context = {'recentBuild': recentBuild, 'featuredBuild': featuredBuild, 'images':images}
@@ -55,10 +55,14 @@ def updateFeaturedBuild():
     if dateUpdated != datetime.date.today():
         dateUpdated = datetime.date.today()
         
-        builds = list(Build.objects.all())
+        builds = list(Build.objects.filter(accepted=True))
 
         featuredBuild = random.choice(builds)
 
 def getRandomImages() -> list[Image]:
-
-    return random.choices(Image.objects.all(), k=10)
+    builds = Build.objects.filter(accepted=True).prefetch_related('images')
+    images = []
+    for build in builds:
+        images.extend(build.images.all())
+    print(images)
+    return random.sample(images, k=min(10, len(images)))

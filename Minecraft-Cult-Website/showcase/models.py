@@ -8,6 +8,8 @@ import shutil
 class Tag(models.Model):
     name = models.CharField(max_length=100, unique=True)
 
+    accepted = models.BooleanField(default=False)
+
     def __str__(self):
         return self.name
 
@@ -20,6 +22,8 @@ class Build(models.Model):
     coordsz = models.IntegerField(null=True, blank=True)
     tags = models.ManyToManyField(Tag, related_name='builds', through='BuildTag')
     slug = models.SlugField(unique=True, blank=True)
+
+    accepted = models.BooleanField(default=False)
 
     @property
     def thumbnail(self):
@@ -68,4 +72,4 @@ class Image(models.Model):
 
 class BuildTag(models.Model):
     build = models.ForeignKey(Build, on_delete=models.CASCADE)
-    tag = models.ForeignKey(Tag, on_delete=models.PROTECT)
+    tag = models.ForeignKey(Tag, on_delete=models.CASCADE)

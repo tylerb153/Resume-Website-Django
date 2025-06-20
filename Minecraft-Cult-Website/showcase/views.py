@@ -20,11 +20,13 @@ def showcase(request):
         if filter != "":
             builds = builds.filter(tags__name__iexact=filter)
 
+    builds = builds.filter(accepted=True)
+
     paginator = Paginator(builds, 12)
     page_number = request.GET.get('page')
     builds = paginator.get_page(page_number)
     
-    tags = Tag.objects.all()
+    tags = Tag.objects.filter(accepted=True)
     tags = list(tags.values_list("name", flat=True))
 
     context = {'tags': tags, 'builds': builds, }
@@ -46,14 +48,18 @@ def createBuild(request):
                 Image.objects.create(name=image.name, build=build, image=image, thumbnail=False)
 
             #Process the tags
-            for tag in json.loads(request.POST['tagsInput']):
-                tag:str = tag["value"].capitalize()
-                existingTag = tags.filter(name__iexact=tag)
-                if existingTag:
-                    BuildTag.objects.create(tag=existingTag.first(), build=build)
-                else:
-                    tag = Tag.objects.create(name=tag)
-                    BuildTag.objects.create(tag=tag, build=build)
+            if request.POST['tagsInput'] != "":
+                for tag in json.loads(request.POST['tagsInput']):
+                    tagName = ""
+                    for word in tag["value"].split():
+                        tagName += word.capitalize() + " "
+                    tagName = tagName.strip()
+                    existingTag = tags.filter(name__iexact=tagName)
+                    if existingTag:
+                        BuildTag.objects.create(tag=existingTag.first(), build=build)
+                    else:
+                        tag = Tag.objects.create(name=tagName)
+                        BuildTag.objects.create(tag=tag, build=build)
 
 
 

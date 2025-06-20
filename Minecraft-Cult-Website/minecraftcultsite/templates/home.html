@@ -74,11 +74,17 @@
                             </div>
                             <div class="carousel-inner">
                                 {% for image in images %}
-                                <a href="{% url 'buildDetails' image.build.slug %}">
-                                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                                        <img src="{{ image.image.url }}" class="d-block w-100 h-100 object-fit-cover" data-bs-toggle="modal" data-bs-target="#imageModal" data-slide-index="{{ forloop.counter0 }}" alt="Image of build">
-                                    </div>
-                                </a>
+                                    {% if image.build.slug %}
+                                        <a href="{% url 'buildDetails' image.build.slug %}">
+                                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                                <img src="{{ image.image.url }}" class="d-block w-100 h-100 object-fit-cover" data-bs-toggle="modal" data-bs-target="#imageModal" data-slide-index="{{ forloop.counter0 }}" alt="Image of build">
+                                            </div>
+                                        </a>
+                                    {% else %}
+                                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                            <img src="{% static 'images/LogoBW.svg' %}" class="d-block w-100 h-100 object-fit-cover" alt="Static fallback image">
+                                        </div>
+                                    {% endif %}
                                 {% endfor %}
                                 
                             </div>

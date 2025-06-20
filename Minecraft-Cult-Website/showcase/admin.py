@@ -13,8 +13,8 @@ class ImageInline(admin.TabularInline):
 # Register your models here.
 @admin.register(Build)
 class BuildAdmin(admin.ModelAdmin):
-    list_display = ['title', 'creator', 'accepted']
-    list_filter = ['creator', 'tags', 'accepted']
+    list_display = ['title', 'creator', 'accepted', 'featured']
+    list_filter = ['creator', 'tags', 'accepted', 'featured']
     search_fields = ['title', 'creator', 'tags']
     actions = ['markAccepted', 'markUnaccepted']
     inlines = [BuildTagInline, ImageInline]

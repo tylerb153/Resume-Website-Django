@@ -24,6 +24,7 @@ class Build(models.Model):
     slug = models.SlugField(unique=True, blank=True)
 
     accepted = models.BooleanField(default=False)
+    featured = models.BooleanField(default=False)
 
     @property
     def thumbnail(self):

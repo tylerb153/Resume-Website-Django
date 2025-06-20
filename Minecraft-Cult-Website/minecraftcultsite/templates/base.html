@@ -15,7 +15,7 @@
         <script src="{% static 'js/base.js' %}" defer></script>
         {% block head %}{% endblock%}
     </head>
-    <body>
+    <body class="bg-body-secondary">
         <nav class="navbar navbar-expand-lg bg-body-secondary" style="min-height: 77px;">
             <div class="container-fluid">
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarToggler" aria-label="Toggle navigation">
@@ -60,9 +60,6 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'showcase' %}">Builds</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link">About</a>
-                            </li>
                         </ul>
                     </div>
                 </div>
@@ -79,7 +76,13 @@
 
         {% block content %}{% endblock %}
 
-        <footer class="d-flex justify-content-center bg-body-secondary">
+        <footer class="d-flex flex-column p-1 align-items-center bg-body-secondary">
+            <h5 class="link-secondary m-1">The Minecraft Cult</h5>
+            <div class="d-flex">
+                <a class="link-secondary mx-1" href="{% url 'home' %}">Home</a>
+                <a class="link-secondary mx-1" href="{% url 'map' %}">Map</a>
+                <a class="link-secondary mx-1" href="{% url 'showcase' %}">Builds</a>
+            </div>
             <a class="link-secondary link-underline link-underline-opacity-0 link m-1">© Tyler Bischoff</a>
         </footer>
 

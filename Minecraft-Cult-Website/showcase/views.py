@@ -36,35 +36,47 @@ def createBuild(request):
     if request.method == "POST":
         form = BuildForm(request.POST)
         tags = Tag.objects.all()
-        if form.is_valid():
-            build = form.save()
+        try:
+            if form.is_valid():
+                try:
+                    build = form.save()
+                except Exception as e:
+                    raise Exception(f"Creating Build Failed!\n{e}")
 
-            #Process the images uploaded
-            thumbnail = request.FILES['thumbnail']
-            Image.objects.create(name=thumbnail.name , build=build, image=thumbnail, thumbnail=True)
+                #Process the images uploaded
+                try:
+                    thumbnail = request.FILES['thumbnail']
+                    Image.objects.create(name=thumbnail.name , build=build, image=thumbnail, thumbnail=True)
 
-            images = request.FILES.getlist('images') 
-            for image in images:
-                Image.objects.create(name=image.name, build=build, image=image, thumbnail=False)
+                    images = request.FILES.getlist('images') 
+                    for image in images:
+                        Image.objects.create(name=image.name, build=build, image=image, thumbnail=False)
+                except Exception as e:
+                    raise Exception(f"Image Processing Failed!\n{e}")
 
-            #Process the tags
-            if request.POST['tagsInput'] != "":
-                for tag in json.loads(request.POST['tagsInput']):
-                    tagName = ""
-                    for word in tag["value"].split():
-                        tagName += word.capitalize() + " "
-                    tagName = tagName.strip()
-                    existingTag = tags.filter(name__iexact=tagName)
-                    if existingTag:
-                        BuildTag.objects.create(tag=existingTag.first(), build=build)
-                    else:
-                        tag = Tag.objects.create(name=tagName)
-                        BuildTag.objects.create(tag=tag, build=build)
+                #Process the tags
+                try:
+                    if request.POST['tagsInput'] != "":
+                        for tag in json.loads(request.POST['tagsInput']):
+                            tagName = ""
+                            for word in tag["value"].split():
+                                tagName += word.capitalize() + " "
+                            tagName = tagName.strip()
+                            existingTag = tags.filter(name__iexact=tagName)
+                            if existingTag:
+                                BuildTag.objects.create(tag=existingTag.first(), build=build)
+                            else:
+                                tag = Tag.objects.create(name=tagName)
+                                BuildTag.objects.create(tag=tag, build=build)
+                except Exception as e:
+                    raise Exception(f"Creating tags Failed!\n{e}")
 
 
 
-            messages.success(request, 'Uploaded Build Successful! Please wait for approval.')
-        else:
+                messages.success(request, 'Uploaded Build Successful! Please wait for approval.')
+            else:
+                raise Exception("Build Upload Failed!")
+        except:
             messages.error(request, 'Upload Failed! Please refresh and try again', extra_tags='danger') 
 
     return redirect('showcase')

@@ -84,7 +84,7 @@ def createBuild(request):
 def buildDetails(request, slug):
     # Display the specific build
     if slug:
-        builds = Build.objects.all()
+        builds = Build.objects.filter(accepted=True)
         build = builds.filter(Q(slug=slug)).first()
 
         builds = list(builds)

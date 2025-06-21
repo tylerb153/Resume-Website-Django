@@ -7,23 +7,21 @@
 {% endblock %}
 
 {% block content %}
-    <div class='d-flex h-100 mb-3'>
+    <div class='d-flex bg-body' style="min-height: calc(100% - 77px);">
         {% comment %} Other Builds {% endcomment %}
-        <div class="d-none d-lg-flex bg-body-tertiary p-3 sidebar" style="overflow-y: auto; height:100%;">
-            <div class="d-flex flex-column align-items-center w-100">
-                <h2 class="fw-bold">More Builds</h2>
-                {% for build in builds %}
-                    <a href="{% url 'buildDetails' build.slug %}" class="d-block shadow mt-3 build-container text-reset text-decoration-none w-100" style="padding:.75rem; min-height: calc(200px + 2 * .75rem); max-height: calc(200px + 2 * .75rem);">
-                        <img src="{% if build.thumbnail.image %}{{ build.thumbnail.image.url }}{% else %}{% static 'images/LogoBW.svg' %}{% endif %}" onerror="this.src='{% static 'images/LogoBW.svg' %}'" class="w-100 build-image">
-                        <hr>
-                        <h5 class="mt-2 fs-4 build-details text-capitalize">{{build.title}}</h5>
-                        <p class="mb-0 fst-italic build-details">{{build.creator}}</p>
-                    </a>
-                {% endfor %}
-            </div>
+        <div class="d-none d-lg-flex flex-column bg-body-tertiary p-3 sidebar align-self-stretch" style="">
+            <h2 class="fw-bold">More Builds</h2>
+            {% for build in builds %}
+                <a href="{% url 'buildDetails' build.slug %}" class="d-block shadow mt-3 build-container text-reset text-decoration-none w-100" style="padding:.75rem;">
+                    <img src="{% if build.thumbnail.image %}{{ build.thumbnail.image.url }}{% else %}{% static 'images/LogoBW.svg' %}{% endif %}" onerror="this.src='{% static 'images/LogoBW.svg' %}'" class="w-100 build-image">
+                    <hr>
+                    <h5 class="mt-2 fs-4 build-details text-capitalize">{{build.title}}</h5>
+                    <p class="mb-0 fst-italic build-details">{{build.creator}}</p>
+                </a>
+            {% endfor %}
         </div>
         <div class="vr d-none d-lg-block"></div>
-        <div class="container-fluid p-lg-5 pt-5 mb-3" style="max-width: 1700px; overflow-y: auto; height: 100%">
+        <div class="container-fluid p-lg-5 pt-5 mb-3" style="max-width: 1700px;">
             <h1 class="text-capitalize mb-0">{{ build.title }}</h1>
             <h3 class="fst-italic mb-0">{{ build.creator }}</h3>
             <div class="d-flex text-body-tertiary mb-0 mt-2 fs-5">

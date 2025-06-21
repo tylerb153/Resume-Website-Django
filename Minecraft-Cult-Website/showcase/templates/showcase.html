@@ -59,9 +59,9 @@
             </div>
         {% endfor %}
     {% endif %}
-    <div class="d-flex align-items-start" style="height: calc(100% - 77px);">
+    <div class="d-flex align-items-start bg-body" style="min-height: calc(100% - 77px);">
         <!-- Sidebar -->
-        <div class="d-none d-lg-flex flex-column bg-body-tertiary p-3 sidebar">
+        <div class="d-none d-lg-flex flex-column bg-body-tertiary p-3 sidebar align-self-stretch">
             <button class="btn btn-outline-primary w-100" data-bs-toggle="modal" data-bs-target="#NewBuildModel" type="button">
                 <p class="btn-p">+ Submit a Build</p>
             </button>
@@ -89,7 +89,7 @@
         </div>
         <div class="vr d-none d-lg-block"></div>
         <!-- Builds -->
-        <div class="container" style="max-width: 1700px; overflow-y: auto; height: 100%">
+        <div class="container" style="max-width: 1700px;">
             <div class="row gap-2 ms-md-3 me-md-3 justify-content-center justify-content-lg-start">
                 {% for build in builds %}
                     <a href="{% url 'buildDetails' build.slug %}" class="col-auto shadow mt-3 build-container text-reset text-decoration-none" style="min-width: 339px;">

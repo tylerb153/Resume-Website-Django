@@ -46,3 +46,11 @@ function changeStatus(data) {
         }
     }
 }
+
+function copyServerAddress(element) {
+    navigator.clipboard.writeText("mc.theminecraftcult.com");
+
+    element.innerText = "Copied!";
+    
+    setTimeout((element) => {element.innerText = "mc.theminecraftcult.com";}, 2000, element)
+}

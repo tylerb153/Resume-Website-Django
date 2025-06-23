@@ -31,7 +31,10 @@
                 <div class="d-flex flex-column bg-body-tertiary border p-2 px-3 shadow flex-grow-1">
                     <h2 class="mb-0">Server Info</h2>
                     <hr>
-                    <a class="mx-auto nav-link text-decoration-underline" href="{% url 'home' %}">mc.theminecraftcult.com</a>
+                    <div class="d-flex align-items-center justify-content-center mx-auto" style="width: 198px;">
+                        <span class="bi-copy pe-1 cursor-pointer" onclick="copyServerAddress(this.nextElementSibling)"></span>
+                        <button class="nav-link text-decoration-underline" onclick="copyServerAddress(this)" style="">mc.theminecraftcult.com</button>
+                    </div>
                     <div class="d-flex justify-content-between">
                         <p class="mb-0">Status: <span class="text-danger" id="serverStatus"></span></p>
                         <p class="mb-0" id="version-label"></p>

@@ -1,0 +1,26 @@
+name: The Minecraft Cult Site
+description: The Django app behind www.theminecraftcult.com
+portals:
+  web_portal: true
+  host_network: false
+questions:
+  - variable: djangoSecretKey
+    label: Django Secret Key
+    description: A unique, random string required to keep Django sessions secure.
+    schema:
+      type: string
+      required: true
+      private: true
+  - variable: mediaPath
+    label: Media Path
+    description: The path where media files are stored
+    schema:
+      type: path
+      required: true
+  - variable: dbPath
+    label: Database Folder
+    description: The path where the sqlite database file is stored
+    schema:
+      type: path
+      required: true
+      

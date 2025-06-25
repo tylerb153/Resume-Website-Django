@@ -62,7 +62,7 @@ def getImageUploadPath(instance, filename):
     if instance.build:
         return f'builds/{instance.build.id}/{filename}'
     else:
-        return f'builds/static/{filename}'
+        return f'builds/media/{filename}'
 
 class Image(models.Model):
     name = models.CharField(null=True, blank=True)

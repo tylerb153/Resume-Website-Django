@@ -6,6 +6,5 @@ BuildTestData.py
 Minecraft-Cult-Website/media
 migrations
 .env
-Minecraft-Cult-Website/staticfiles
 media-files
 db

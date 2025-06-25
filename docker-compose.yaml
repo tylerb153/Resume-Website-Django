@@ -1,0 +1,11 @@
+services:
+  web:
+    build: .
+    image: minecraft-cult-site
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    volumes:
+      - ${MEDIA_PATH}:/app/media
+      - ${DB_PATH}:/app/db

@@ -76,7 +76,8 @@ def createBuild(request):
                 messages.success(request, 'Uploaded Build Successful! Please wait for approval.')
             else:
                 raise Exception("Build Upload Failed!")
-        except:
+        except Exception as e:
+            print(f"Error in build upload:\n{e}")
             messages.error(request, 'Upload Failed! Please refresh and try again', extra_tags='danger') 
 
     return redirect('showcase')

@@ -9,3 +9,4 @@ migrations
 Minecraft-Cult-Website/staticfiles
 media-files
 db
+sqlite-db

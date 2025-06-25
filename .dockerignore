@@ -8,3 +8,4 @@ migrations
 .env
 media-files
 db
+sqlite-db

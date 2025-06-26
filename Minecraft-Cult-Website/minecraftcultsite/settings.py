@@ -28,6 +28,11 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['.theminecraftcult.com',
                  '127.0.0.1',
+                 '192.168.254.10'
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://www.theminecraftcult.com",
 ]
 
 
@@ -44,6 +49,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'minecraftcultsite.middleware.restrictAdmin.AdminAccessRestrictionMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

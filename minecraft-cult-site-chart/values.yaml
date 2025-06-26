@@ -1,8 +1,0 @@
-image:
-  repository: tylerb153/the-minecraft-cult-site
-  tag: latest
-  pullPolicy: IfNotPresent
-
-djangoSecretKey: changeme
-mediaPath: /mnt/app/media
-dbPath: /mnt/app/db

@@ -1,9 +1,0 @@
-app_version: 1.0.0
-description: This is the Django app behind www.theminecraftcult.com
-home: https://www.theminecraftcult.com/
-host_mounts: []
-icon: https://raw.githubusercontent.com/tylerb153/Minecraft-Cult-Website-Django/3ebfb971f3fac0db722b4c950133b4a6e873c4e7/Minecraft-Cult-Website/minecraftcultsite/static/images/LogoColor.svg
-maintainers:
-  - name: Tyler
-    url: https://www.tymler.com/
-name: theminecraftcult

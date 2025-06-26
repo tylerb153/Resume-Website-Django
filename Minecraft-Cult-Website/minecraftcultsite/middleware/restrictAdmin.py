@@ -11,5 +11,5 @@ class AdminAccessRestrictionMiddleware:
         if request.path.startswith(reverse('admin:index').rstrip('/')):
             remote_ip = request.META.get("REMOTE_ADDR", "")
             if not remote_ip.startswith("192.168.254"):
-                return self.get_response(request)
-        return HttpResponseRedirect(reverse('home'))
+                return HttpResponseRedirect(reverse('home'))
+        return self.get_response(request)

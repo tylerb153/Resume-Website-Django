@@ -75,11 +75,15 @@ def createBuild(request):
                 messages.success(request, 'Uploaded Build Successful! Please wait for approval.')
                 
                 try:
+                    # print(request.build_absolute_uri(thumbnail.image.url))
                     json = {
                         "content": f"{build.creator} just uploaded {build.title}",
                         "embeds": [
                             {
-                                "image": f"{request.build_absolute_uri(thumbnail.image.url)}"
+                                "image": {
+                                    "url": request.build_absolute_uri(thumbnail.image.url)
+                                },
+                                "description": f"[Click here to review](http://192.168.254.10:8000/admin/showcase/build/)"
                             }
                         ]
                     }
@@ -90,6 +94,11 @@ def createBuild(request):
                     try:
                         json = {
                             "content": f"{build.creator} just uploaded {build.title}",
+                            "embeds": [
+                            {
+                                "description": f"[Click here to review](http://192.168.254.10:8000/admin/showcase/build/)"
+                            }
+                        ]
                         }
                         requests.post(url="https://discord.com/api/webhooks/1388676260166631435/kghrRqG5BzbXThSmq42HPJCv4f25P5koVL4hKceB_RfecXaeyGztlVVK8PHp8yeTY69k", json=json)
                         if response.status_code != 204:

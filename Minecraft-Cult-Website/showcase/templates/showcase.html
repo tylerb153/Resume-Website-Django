@@ -198,7 +198,7 @@
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Create Build Post</button>
+                            <button type="submit" id="modal-submit" class="btn btn-primary">Create Build Post</button>
                         </div>
                         <script>
                             // Example starter JavaScript for disabling form submissions if there are invalid fields
@@ -214,6 +214,14 @@
                                 if (!form.checkValidity()) {
                                     event.preventDefault()
                                     event.stopPropagation()
+                                } else {
+                                    // Keep submit button from being pressed multiple times
+                                    const submitButton = document.querySelector("#modal-submit");
+                                    if (submitButton) {
+                                        submitButton.innerHTML = "Submitting...";
+                                        submitButton.classList.add('disabled');
+                                        submitButton.setAttribute('disabled', 'true');
+                                    } 
                                 }
 
                                 form.classList.add('was-validated')

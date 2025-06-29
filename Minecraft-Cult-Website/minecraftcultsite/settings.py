@@ -28,9 +28,10 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['theminecraftcult.com',
                  '127.0.0.1',
-                 '192.168.254.',
                  'tylersserver',
 ]
+for i in range(1, 255):
+    ALLOWED_HOSTS.append(f'192.168.254.{i}')
 
 CSRF_TRUSTED_ORIGINS = [
     "https://www.theminecraftcult.com",

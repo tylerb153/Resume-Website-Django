@@ -23,7 +23,7 @@ def showcase(request):
 
     builds = builds.filter(accepted=True)
 
-    paginator = Paginator(builds, 12)
+    paginator = Paginator(builds.order_by('id'), 12)
     page_number = request.GET.get('page')
     builds = paginator.get_page(page_number)
     

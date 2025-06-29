@@ -3,6 +3,7 @@ from django.conf import settings
 from django.utils.text import slugify
 from django.db.models.signals import post_delete
 from django.dispatch import receiver
+from django_resized import ResizedImageField
 import os
 import shutil
 
@@ -67,7 +68,7 @@ def getImageUploadPath(instance, filename):
 class Image(models.Model):
     name = models.CharField(null=True, blank=True)
     build = models.ForeignKey(Build, on_delete=models.CASCADE, related_name='images')
-    image = models.ImageField(upload_to=getImageUploadPath)
+    image = ResizedImageField(force_format="WEBP", size=None, upload_to=getImageUploadPath)
     thumbnail = models.BooleanField(default=False)
 
     def __str__(self):

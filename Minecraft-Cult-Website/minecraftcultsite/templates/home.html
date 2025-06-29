@@ -54,7 +54,7 @@
             {% comment %} Recent Build {% endcomment %}
             {% if recentBuild %}
                 <div class="col-12 col-md-6 d-flex">
-                    <div class="d-flex flex-column bg-body-tertiary border p-2 px-3 shadow">
+                    <div class="d-flex flex-column bg-body-tertiary border p-2 px-3 shadow flex-grow-1">
                         <h2 class="mb-0">Recent Build</h2>
                         <hr>
                         <a href="{% url 'buildDetails' recentBuild.slug %}" class="d-block text-reset text-decoration-none w-100">

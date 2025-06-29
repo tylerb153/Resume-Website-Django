@@ -80,16 +80,16 @@
                                     <button type="button" data-bs-target="#buildImageCarousel" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %} aria-label="Slide 2"></button>
                                     {% endfor %}
                                 </div>
-                                <div class="carousel-inner">
+                                <div class="carousel-inner h-100">
                                     {% for image in images %}
                                         {% if image.build.slug %}
                                             <a href="{% url 'buildDetails' image.build.slug %}">
-                                                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                                <div class="carousel-item h-100 {% if forloop.first %}active{% endif %}">
                                                     <img src="{{ image.image.url }}" class="d-block w-100 h-100 object-fit-cover" data-bs-toggle="modal" data-bs-target="#imageModal" data-slide-index="{{ forloop.counter0 }}" alt="Image of build">
                                                 </div>
                                             </a>
                                         {% else %}
-                                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                            <div class="carousel-item h-100 {% if forloop.first %}active{% endif %}">
                                                 <img src="{% static 'images/LogoBW.svg' %}" class="d-block w-100 h-100 object-fit-cover" alt="Static fallback image">
                                             </div>
                                         {% endif %}

@@ -7,6 +7,7 @@ from .forms import BuildForm
 
 import random
 import json
+import requests
 
 # Create your views here.
 def showcase(request):
@@ -46,7 +47,7 @@ def createBuild(request):
                 #Process the images uploaded
                 try:
                     thumbnail = request.FILES['thumbnail']
-                    Image.objects.create(name=thumbnail.name , build=build, image=thumbnail, thumbnail=True)
+                    thumbnail = Image.objects.create(name=thumbnail.name , build=build, image=thumbnail, thumbnail=True)
 
                     images = request.FILES.getlist('images') 
                     for image in images:
@@ -71,9 +72,30 @@ def createBuild(request):
                 except Exception as e:
                     raise Exception(f"Creating tags Failed!\n{e}")
 
-
-
                 messages.success(request, 'Uploaded Build Successful! Please wait for approval.')
+                
+                try:
+                    json = {
+                        "content": f"{build.creator} just uploaded {build.title}",
+                        "embeds": [
+                            {
+                                "image": f"{request.build_absolute_uri(thumbnail.image.url)}"
+                            }
+                        ]
+                    }
+                    response = requests.post(url="https://discord.com/api/webhooks/1388676260166631435/kghrRqG5BzbXThSmq42HPJCv4f25P5koVL4hKceB_RfecXaeyGztlVVK8PHp8yeTY69k", json=json)
+                    if response.status_code != 204:
+                        raise Exception(f"Could not send webhook returned {response.status_code} {response.reason}")
+                except Exception as e:
+                    try:
+                        json = {
+                            "content": f"{build.creator} just uploaded {build.title}",
+                        }
+                        requests.post(url="https://discord.com/api/webhooks/1388676260166631435/kghrRqG5BzbXThSmq42HPJCv4f25P5koVL4hKceB_RfecXaeyGztlVVK8PHp8yeTY69k", json=json)
+                        if response.status_code != 204:
+                            raise Exception(f"Could not send webhook returned {response.status_code} {response.reason}")
+                    except Exception as e:
+                        print(f"Could not send webhook:\n{e}")            
             else:
                 raise Exception("Build Upload Failed!")
         except Exception as e:

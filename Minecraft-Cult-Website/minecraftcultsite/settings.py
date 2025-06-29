@@ -26,9 +26,10 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['.theminecraftcult.com',
+ALLOWED_HOSTS = ['theminecraftcult.com',
                  '127.0.0.1',
-                 '192.168.254.10'
+                 '192.168.254.',
+                 'tylersserver',
 ]
 
 CSRF_TRUSTED_ORIGINS = [

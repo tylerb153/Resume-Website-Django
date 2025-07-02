@@ -6,8 +6,8 @@ from .models import Build, Tag, Image, BuildTag
 from .forms import BuildForm
 
 import random
-import json
 import requests
+import os
 
 # Create your views here.
 def showcase(request):
@@ -75,6 +75,7 @@ def createBuild(request):
                 messages.success(request, 'Uploaded Build Successful! Please wait for approval.')
                 
                 try:
+                    webhookURL = os.getenv('DISCORD_WEBHOOK_URL')
                     # print(request.build_absolute_uri(thumbnail.image.url))
                     json = {
                         "content": f"{build.creator} just uploaded {build.title}",
@@ -87,7 +88,7 @@ def createBuild(request):
                             }
                         ]
                     }
-                    response = requests.post(url="https://discord.com/api/webhooks/1388676260166631435/kghrRqG5BzbXThSmq42HPJCv4f25P5koVL4hKceB_RfecXaeyGztlVVK8PHp8yeTY69k", json=json)
+                    response = requests.post(url=webhookURL, json=json)
                     if response.status_code != 204:
                         raise Exception(f"Could not send webhook returned {response.status_code} {response.reason}")
                 except Exception as e:
@@ -100,7 +101,7 @@ def createBuild(request):
                             }
                         ]
                         }
-                        requests.post(url="https://discord.com/api/webhooks/1388676260166631435/kghrRqG5BzbXThSmq42HPJCv4f25P5koVL4hKceB_RfecXaeyGztlVVK8PHp8yeTY69k", json=json)
+                        requests.post(url=webhookURL, json=json)
                         if response.status_code != 204:
                             raise Exception(f"Could not send webhook returned {response.status_code} {response.reason}")
                     except Exception as e:

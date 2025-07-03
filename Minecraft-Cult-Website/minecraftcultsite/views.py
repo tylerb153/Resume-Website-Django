@@ -14,17 +14,30 @@ def home(request):
     recentBuild = Build.objects.filter(accepted=True).last()
     images = getRandomImages()
 
-    mapLink = getMapLink()
+    mapLink = "https://dynmap.theminecraftcult.com/"
     
     context = {'recentBuild': recentBuild, 'featuredBuild': featuredBuild, 'images':images, 'mapLink': mapLink}
     return render(request, 'home.html', context=context)
 
 def mapPage(request):
-    mapLink = getMapLink()
+    dynmapLink = "https://dynmap.theminecraftcult.com/"
+    bluemapLink = "https://bluemap.theminecraftcult.com/"
+    dynmapLive = False
+    bluemapLive = False
+    try:
+        if requests.head(dynmapLink, timeout=1).status_code == 200:
+                dynmapLive = True
+    except:
+        pass
+    try:
+        if requests.get(bluemapLink, timeout=1, stream=True, headers={"Host": "bluemap.theminecraftcult.com", "User-Agent": "Mozilla/5.0"}).status_code < 400:
+                bluemapLive = True
+    except:
+        pass
     
     queryString = request.META.get('QUERY_STRING', '')    
 
-    return render(request, 'map.html', context={"mapLink": mapLink, "queryString":queryString})
+    return render(request, 'map.html', context={"dynmapLive": dynmapLive, "bluemapLive": bluemapLive, "dynmapLink": dynmapLink, "bluemapLink": bluemapLink, "queryString":queryString})
 
 
 # Figure out if a new featured build needs to be selected in order to make sure it only change once per day

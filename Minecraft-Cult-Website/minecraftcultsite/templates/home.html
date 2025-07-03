@@ -111,7 +111,7 @@
             {% endif %}
         </div>
     </div>
-    <div class="position-fixed me-5 top-0 start-0 h-100 w-100 overflow-hidden pe-none z-n1 background-div" style="background-image: url({% static 'images/homeBackground.png' %});">
+    <div class="position-fixed me-5 top-0 start-0 h-100 w-100 overflow-hidden pe-none z-n1 background-div" style="background-image: url({% static 'images/homeBackground.webp' %});">
         {% if mapLink != "Offline" %}
             <iframe class="background-iframe" src="{{ mapLink }}?worldname=world&mapname=surface&zoom=5&x=189&y=64&z=4&nogui=true" tabindex="-1" id="background-iframe" style="width: 150%; height: 150%;"></iframe>
         {% endif %}

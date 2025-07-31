@@ -28,7 +28,6 @@ urlpatterns = [
     path('home/', RedirectView.as_view(url='/', permanent=True)),
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
-    path('map/', views.mapPage, name='map'),
-    path('builds/', include('showcase.urls')),
+    path('projects/', include('showcase.urls')),
     path('media/<path:path>', serve, {'document_root': settings.MEDIA_ROOT})
 ]# + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

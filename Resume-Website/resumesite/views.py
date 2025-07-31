@@ -1,22 +1,22 @@
 from django.shortcuts import render
 import requests
-from showcase.models import Build, Image
+from showcase.models import Project, Image
 
 import datetime
 import random
 
 # Create your views here.
 def home(request):
-    # This updated and returns the featured build. it updates it if the date updated changes or there isn't one. it also checks if it's been accepted, unaccepted builds can't be featured. 
-    featuredBuild = updateFeaturedBuild()
+    # This updated and returns the featured project. it updates it if the date updated changes or there isn't one. it also checks if it's been accepted, unaccepted projects can't be featured. 
+    featuredProject = updateFeaturedProject()
 
-    # We are going to get the most recent build here for use in the recent build tile
-    recentBuild = Build.objects.filter(accepted=True).last()
+    # We are going to get the most recent project here for use in the recent project tile
+    recentProject = Project.objects.filter(accepted=True).last()
     images = getRandomImages()
 
     mapLink = "https://dynmap.theminecraftcult.com/"
     
-    context = {'recentBuild': recentBuild, 'featuredBuild': featuredBuild, 'images':images, 'mapLink': mapLink}
+    context = {'recentProject': recentProject, 'featuredProject': featuredProject, 'images':images, 'mapLink': mapLink}
     return render(request, 'home.html', context=context)
 
 def mapPage(request):
@@ -40,8 +40,8 @@ def mapPage(request):
     return render(request, 'map.html', context={"dynmapLive": dynmapLive, "bluemapLive": bluemapLive, "dynmapLink": dynmapLink, "bluemapLink": bluemapLink, "queryString":queryString})
 
 
-# Figure out if a new featured build needs to be selected in order to make sure it only change once per day
-def updateFeaturedBuild():
+# Figure out if a new featured project needs to be selected in order to make sure it only change once per day
+def updateFeaturedProject():
     global dateUpdated
 
     # Here we set up the globals if they don't have a value already
@@ -51,31 +51,31 @@ def updateFeaturedBuild():
     except:
         dateUpdated = None
 
-    featuredBuilds = Build.objects.filter(featured=True)
-    if dateUpdated != datetime.date.today() or len(featuredBuilds) == 0:
+    featuredProjects = Project.objects.filter(featured=True)
+    if dateUpdated != datetime.date.today() or len(featuredProjects) == 0:
         dateUpdated = datetime.date.today()
-        if len(featuredBuilds) > 0:
-            for build in featuredBuilds:
-                build.featured = False
-                build.save()
+        if len(featuredProjects) > 0:
+            for project in featuredProjects:
+                project.featured = False
+                project.save()
 
-        builds = list(Build.objects.filter(accepted=True))
-        if builds != []:    
-            featuredBuild = random.choice(builds)
+        projects = list(Project.objects.filter(accepted=True))
+        if projects != []:    
+            featuredProject = random.choice(projects)
 
-            featuredBuild.featured = True
-            featuredBuild.save()
-            return featuredBuild
+            featuredProject.featured = True
+            featuredProject.save()
+            return featuredProject
         else:
             return None
 
-    return featuredBuilds.first()
+    return featuredProjects.first()
 
 def getRandomImages() -> list[Image]:
-    builds = Build.objects.filter(accepted=True).prefetch_related('images')
+    projects = Project.objects.filter(accepted=True).prefetch_related('images')
     images = []
-    for build in builds:
-        images.extend(build.images.all())
+    for project in projects:
+        images.extend(project.images.all())
     return random.sample(images, k=min(10, len(images)))
 
 def getMapLink() -> str:

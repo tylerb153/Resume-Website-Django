@@ -1,9 +1,9 @@
 from django.contrib import admin, messages
-from .models import Build, Tag, BuildTag, Image
+from .models import Project, Tag, ProjectTag, Image
 from django.utils.translation import ngettext
 
-class BuildTagInline(admin.TabularInline):
-    model = BuildTag
+class ProjectTagInline(admin.TabularInline):
+    model = ProjectTag
     extra = 0
 
 class ImageInline(admin.TabularInline):
@@ -11,15 +11,15 @@ class ImageInline(admin.TabularInline):
     extra = 0
 
 # Register your models here.
-@admin.register(Build)
-class BuildAdmin(admin.ModelAdmin):
+@admin.register(Project)
+class ProjectAdmin(admin.ModelAdmin):
     list_display = ['title', 'creator', 'accepted', 'featured']
     list_filter = ['creator', 'tags', 'accepted', 'featured']
     search_fields = ['title', 'creator', 'tags']
     actions = ['markAccepted', 'markUnaccepted']
-    inlines = [BuildTagInline, ImageInline]
+    inlines = [ProjectTagInline, ImageInline]
 
-    @admin.action(description="Accept Build(s)")
+    @admin.action(description="Accept Project(s)")
     def markAccepted(self, request, queryset):
         amountUpdated = queryset.update(accepted=True)
 
@@ -34,7 +34,7 @@ class BuildAdmin(admin.ModelAdmin):
             messages.SUCCESS
         )
     
-    @admin.action(description="Unaccept Build(s)")
+    @admin.action(description="Unaccept Project(s)")
     def markUnaccepted(self, request, queryset):
         amountUpdated = queryset.update(accepted=False)
 
@@ -57,7 +57,7 @@ class TagAdmin(admin.ModelAdmin):
     list_filter = ['accepted']
     search_fields = ['name']
     actions = ['markAccepted', 'markUnaccepted']
-    inlines = [BuildTagInline]
+    inlines = [ProjectTagInline]
 
     @admin.action(description="Accept Tag(s)")
     def markAccepted(self, request, queryset):

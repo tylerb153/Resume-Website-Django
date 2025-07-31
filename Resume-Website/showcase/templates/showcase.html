@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% load showcase_filters %}
-{% block title %}Build Showcase{% endblock %}
+{% block title %}Project Showcase{% endblock %}
 {% block head %}
     <link rel="stylesheet" href="{% static 'showcase.css' %}">
     {{ tags|json_script:"tags" }}
@@ -17,8 +17,8 @@
 {% block content %}
     <!-- Mobile Sidebar -->
     <div class="d-flex flex-column d-lg-none py-3 justify-content-center bg-body-tertiary mobile-sidebar">
-        <button class="btn btn-outline-primary w-100" data-bs-toggle="modal" data-bs-target="#NewBuildModel" type="button">
-            <p class="btn-p">+ Submit a Build</p>
+        <button class="btn btn-outline-primary w-100" data-bs-toggle="modal" data-bs-target="#NewProjectModel" type="button">
+            <p class="btn-p">+ Submit a Project</p>
         </button>
         <form class="d-flex mt-3" id="mobile-form" role="search" method="GET" action="{% url 'showcase' %}">
             <input class="form-control me-2" id="mobile-search" type="search" name="search" placeholder="Search" aria-label="Search" value="{{ request.GET.search }}">
@@ -62,8 +62,8 @@
     <div class="d-flex align-items-start bg-body" style="min-height: calc(100% - 77px);">
         <!-- Sidebar -->
         <div class="d-none d-lg-flex flex-column bg-body-tertiary p-3 sidebar align-self-stretch">
-            <button class="btn btn-outline-primary w-100" data-bs-toggle="modal" data-bs-target="#NewBuildModel" type="button">
-                <p class="btn-p">+ Submit a Build</p>
+            <button class="btn btn-outline-primary w-100" data-bs-toggle="modal" data-bs-target="#NewProjectModel" type="button">
+                <p class="btn-p">+ Submit a Project</p>
             </button>
 
             <form class="d-flex mt-3" id="sidebar-form" role="search" method="GET" action="{% url 'showcase' %}">
@@ -88,19 +88,19 @@
             </div>
         </div>
         <div class="vr d-none d-lg-block"></div>
-        <!-- Builds -->
+        <!-- Projects -->
         <div class="container" style="max-width: 1700px;">
             <div class="row gap-2 ms-md-3 me-md-3 justify-content-center justify-content-lg-start">
-                {% for build in builds %}
-                    <a href="{% url 'buildDetails' build.slug %}" class="col-auto shadow mt-3 build-container text-reset text-decoration-none" style="min-width: 339px;">
-                        <img src="{% if build.thumbnail.image %}{{ build.thumbnail.image.url }}{% else %}{% static 'images/LogoBW.svg' %}{% endif %}" onerror="this.src='{% static 'images/LogoBW.svg' %}'" class="w-100 build-image">
+                {% for project in projects %}
+                    <a href="{% url 'projectDetails' project.slug %}" class="col-auto shadow mt-3 project-container text-reset text-decoration-none" style="min-width: 339px;">
+                        <img src="{% if project.thumbnail.image %}{{ project.thumbnail.image.url }}{% else %}{% static 'images/LogoBW.svg' %}{% endif %}" onerror="this.src='{% static 'images/LogoBW.svg' %}'" class="w-100 project-image">
                         <hr>
-                        <h5 class="mt-2 fs-4 build-details text-capitalize">{{build.title}}</h5>
-                        <p class="mb-0 fst-italic build-details">{{build.creator}}</p>
+                        <h5 class="mt-2 fs-4 project-details text-capitalize">{{project.title}}</h5>
+                        <p class="mb-0 fst-italic project-details">{{project.creator}}</p>
                         <div class="d-flex text-body-tertiary mb-0 mt-2">
-                            {% if build.coordsx != null %}<p class="mb-0">x: {{build.coordsx|truncatechars:6}}&nbsp;&nbsp;</p>{% endif %}
-                            {% if build.coordsy != null %}<p class="mb-0">y: {{build.coordsy|truncatechars:6}}&nbsp;&nbsp;</p>{% endif %}
-                            {% if build.coordsz != null %}<p class="mb-0">z: {{build.coordsz|truncatechars:6}}</p>{% endif %}
+                            {% if project.coordsx != null %}<p class="mb-0">x: {{project.coordsx|truncatechars:6}}&nbsp;&nbsp;</p>{% endif %}
+                            {% if project.coordsy != null %}<p class="mb-0">y: {{project.coordsy|truncatechars:6}}&nbsp;&nbsp;</p>{% endif %}
+                            {% if project.coordsz != null %}<p class="mb-0">z: {{project.coordsz|truncatechars:6}}</p>{% endif %}
                         </div>
                     </a>
                 {% endfor %}
@@ -108,18 +108,18 @@
             <div class="d-flex mt-4 mb-1 mx-0 p-2 justify-content-center" style="max-width: 1400px">
                 <div class="pagination">
                     <span class="step-links mx-1">
-                        {% if builds.has_previous %}
+                        {% if projects.has_previous %}
                         <a class="btn btn-outline-secondary mx-1 d-none d-md-inline-block btn-page" href="?page=1&search={{ request.GET.search }}&filters={{ request.GET.filters }}">&laquo; first</a>
-                        <a class="btn btn-outline-secondary mx-1 btn-page" href="?page={{ builds.previous_page_number }}&search={{ request.GET.search }}&filters={{ request.GET.filters }}">previous</a>
+                        <a class="btn btn-outline-secondary mx-1 btn-page" href="?page={{ projects.previous_page_number }}&search={{ request.GET.search }}&filters={{ request.GET.filters }}">previous</a>
                         {% endif %}
                         
                         <span class="current mx-1">
-                            Page {{ builds.number }} of {{ builds.paginator.num_pages }}
+                            Page {{ projects.number }} of {{ projects.paginator.num_pages }}
                         </span>
                         
-                        {% if builds.has_next %}
-                        <a class="btn btn-outline-secondary mx-1 btn-page" href="?page={{ builds.next_page_number }}&search={{ request.GET.search }}&filters={{ request.GET.filters }}">next</a>
-                        <a class="btn btn-outline-secondary mx-1 d-none d-sm-inline-block btn-page" href="?page={{ builds.paginator.num_pages }}&search={{ request.GET.search }}&filters={{ request.GET.filters }}">last &raquo;</a>
+                        {% if projects.has_next %}
+                        <a class="btn btn-outline-secondary mx-1 btn-page" href="?page={{ projects.next_page_number }}&search={{ request.GET.search }}&filters={{ request.GET.filters }}">next</a>
+                        <a class="btn btn-outline-secondary mx-1 d-none d-sm-inline-block btn-page" href="?page={{ projects.paginator.num_pages }}&search={{ request.GET.search }}&filters={{ request.GET.filters }}">last &raquo;</a>
                         {% endif %}
                     </span>
                 </div>
@@ -127,28 +127,28 @@
         </div>
     </div>
 
-    <!-- New Build Model -->
-    <div class="modal fade" id="NewBuildModel" tabindex="-1">
+    <!-- New Project Model -->
+    <div class="modal fade" id="NewProjectModel" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-dialog scrollable">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5">New Build</h1>
+                    <h1 class="modal-title fs-5">New Project</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form class="mb-0 needs-validation" novalidate="" method="POST" enctype="multipart/form-data" action="{% url 'createBuild' %}">
+                    <form class="mb-0 needs-validation" novalidate="" method="POST" enctype="multipart/form-data" action="{% url 'createProject' %}">
                         {% csrf_token %}
                         <div>
-                            <label for="build-title" class="col-form-label">Title:</label>
-                            <input type="text" class="form-control" id="build-title" name="title" required="">
+                            <label for="project-title" class="col-form-label">Title:</label>
+                            <input type="text" class="form-control" id="project-title" name="title" required="">
                             <div class="invalid-feedback">
                                 Please enter a title.
                             </div>
                         </div>
 
                         <div>
-                            <label for="build-creator" class="col-form-label">Creator:</label>
-                            <input type="text" class="form-control" id="build-creator" name="creator" required="">
+                            <label for="project-creator" class="col-form-label">Creator:</label>
+                            <input type="text" class="form-control" id="project-creator" name="creator" required="">
                             <div class="invalid-feedback">
                                 Please enter a creator.
                             </div>
@@ -156,49 +156,49 @@
 
                         <div class="d-flex justify-content-between col-form-label">
                             <div class="d-flex flex-column w-25">
-                                <label for="build-coordsx" class="col-form-label">x:</label>
-                                <input type="number" class="form-control" id="build-coordsx" name="coordsx">
+                                <label for="project-coordsx" class="col-form-label">x:</label>
+                                <input type="number" class="form-control" id="project-coordsx" name="coordsx">
                             </div>
                             <div class="d-flex flex-column w-25">
-                                <label for="build-coordsy" class="col-form-label">y:</label>
-                                <input type="number" class="form-control" id="build-coordsy" name="coordsy">
+                                <label for="project-coordsy" class="col-form-label">y:</label>
+                                <input type="number" class="form-control" id="project-coordsy" name="coordsy">
                             </div>
                             <div class="d-flex flex-column w-25">
-                                <label for="build-coordsz" class="col-form-label">z:</label>
-                                <input type="number" class="form-control" id="build-coordsz" name="coordsz">
+                                <label for="project-coordsz" class="col-form-label">z:</label>
+                                <input type="number" class="form-control" id="project-coordsz" name="coordsz">
                             </div>
                         </div>
                         
                         <div>
-                            <label for="build-description" class="col-form-label">Description:</label>
-                            <textarea class="form-control" id="build-description" name="description" required=""></textarea>
+                            <label for="project-description" class="col-form-label">Description:</label>
+                            <textarea class="form-control" id="project-description" name="description" required=""></textarea>
                             <div class="invalid-feedback">
                                 Please enter a description.
                             </div>
                         </div>
 
                         <div>
-                            <label for="build-thumbnail" class="col-form-label">Thumbnail:</label>
-                            <input type="file" id="build-thumbnail" class="form-control" accept="image/*" name="thumbnail" required="">
+                            <label for="project-thumbnail" class="col-form-label">Thumbnail:</label>
+                            <input type="file" id="project-thumbnail" class="form-control" accept="image/*" name="thumbnail" required="">
                             <div class="invalid-feedback">
                                 Please upload a thumbnail.
                             </div>
                         </div>
 
                         <div>
-                            <label for="build-images" class="col-form-label">Additional Images:</label>
-                            <input type="file" id="build-images" class="form-control" accept="image/*" name="images" multiple>
+                            <label for="project-images" class="col-form-label">Additional Images:</label>
+                            <input type="file" id="project-images" class="form-control" accept="image/*" name="images" multiple>
                         </div>
 
                         {% comment %} Tagify tags {% endcomment %}
                         <div>
-                            <label for="build-tags" class="col-form-label">Tags:</label>
-                            <input name="tagsInput" id="build-tags" class="form-control" placeholder="Please enter build tags" >
+                            <label for="project-tags" class="col-form-label">Tags:</label>
+                            <input name="tagsInput" id="project-tags" class="form-control" placeholder="Please enter project tags" >
                         </div>
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" id="modal-submit" class="btn btn-primary">Create Build Post</button>
+                            <button type="submit" id="modal-submit" class="btn btn-primary">Create Project Post</button>
                         </div>
                         <script>
                             // Example starter JavaScript for disabling form submissions if there are invalid fields

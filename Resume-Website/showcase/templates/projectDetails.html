@@ -1,57 +1,57 @@
 {% extends "base.html" %}
 {% load static %}
 {% load showcase_filters %}
-{% block title %}{{ build.title }}{% endblock %}
+{% block title %}{{ Project.title }}{% endblock %}
 {% block head %}
     <link rel="stylesheet" href="{% static 'showcase.css' %}">
 {% endblock %}
 
 {% block content %}
     <div class='d-flex bg-body' style="min-height: calc(100% - 77px);">
-        {% comment %} Other Builds {% endcomment %}
+        {% comment %} Other Projects {% endcomment %}
         <div class="d-none d-lg-flex flex-column bg-body-tertiary p-3 sidebar align-self-stretch" style="">
-            <h2 class="fw-bold">More Builds</h2>
-            {% for build in builds %}
-                <a href="{% url 'buildDetails' build.slug %}" class="d-block shadow mt-3 build-container text-reset text-decoration-none w-100" style="padding:.75rem;">
-                    <img src="{% if build.thumbnail.image %}{{ build.thumbnail.image.url }}{% else %}{% static 'images/LogoBW.svg' %}{% endif %}" onerror="this.src='{% static 'images/LogoBW.svg' %}'" class="w-100 build-image">
+            <h2 class="fw-bold">More Projects</h2>
+            {% for Project in Projects %}
+                <a href="{% url 'ProjectDetails' Project.slug %}" class="d-block shadow mt-3 Project-container text-reset text-decoration-none w-100" style="padding:.75rem;">
+                    <img src="{% if Project.thumbnail.image %}{{ Project.thumbnail.image.url }}{% else %}{% static 'images/LogoBW.svg' %}{% endif %}" onerror="this.src='{% static 'images/LogoBW.svg' %}'" class="w-100 Project-image">
                     <hr>
-                    <h5 class="mt-2 fs-4 build-details text-capitalize">{{build.title}}</h5>
-                    <p class="mb-0 fst-italic build-details">{{build.creator}}</p>
+                    <h5 class="mt-2 fs-4 Project-details text-capitalize">{{Project.title}}</h5>
+                    <p class="mb-0 fst-italic Project-details">{{Project.creator}}</p>
                 </a>
             {% endfor %}
         </div>
         <div class="vr d-none d-lg-block"></div>
         <div class="container-fluid p-lg-5 pt-5 mb-3" style="max-width: 1700px;">
-            <h1 class="text-capitalize mb-0">{{ build.title }}</h1>
-            <h3 class="fst-italic mb-0">{{ build.creator }}</h3>
+            <h1 class="text-capitalize mb-0">{{ Project.title }}</h1>
+            <h3 class="fst-italic mb-0">{{ Project.creator }}</h3>
             <div class="d-flex text-body-tertiary mb-0 mt-2 fs-5">
-                {% if build.coordsx != null %}<p class="mb-0">x: {{build.coordsx}}&nbsp;&nbsp;&nbsp;&nbsp;</p>{% endif %}
-                {% if build.coordsy != null %}<p class="mb-0">y: {{build.coordsy}}&nbsp;&nbsp;&nbsp;&nbsp;</p>{% endif %}
-                {% if build.coordsz != null %}<p class="mb-0">z: {{build.coordsz}}</p>{% endif %}
+                {% if Project.coordsx != null %}<p class="mb-0">x: {{Project.coordsx}}&nbsp;&nbsp;&nbsp;&nbsp;</p>{% endif %}
+                {% if Project.coordsy != null %}<p class="mb-0">y: {{Project.coordsy}}&nbsp;&nbsp;&nbsp;&nbsp;</p>{% endif %}
+                {% if Project.coordsz != null %}<p class="mb-0">z: {{Project.coordsz}}</p>{% endif %}
             </div>
             <h5 class="mb-0 mt-3">Description:</h5>
-            <p class="">{{ build.description }}</p>
+            <p class="">{{ Project.description }}</p>
             {% comment %} Carousel {% endcomment %}
             <div class="ratio ratio-4x3 mt-5 border border-black border-3 rounded">
-                <div id="buildImageCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="10000">
+                <div id="ProjectImageCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="10000">
                     <div class="carousel-indicators">                       
-                        {% for image in build.images.all %}
-                            <button type="button" data-bs-target="#buildImageCarousel" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %} aria-label="Slide 2"></button>
+                        {% for image in Project.images.all %}
+                            <button type="button" data-bs-target="#ProjectImageCarousel" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %} aria-label="Slide 2"></button>
                         {% endfor %}
                     </div>
                     <div class="carousel-inner h-100">
-                        {% for image in build.images.all %}
+                        {% for image in Project.images.all %}
                             <div class="carousel-item h-100 {% if forloop.first %}active{% endif %}">
-                                <img src="{{ image.image.url }}" class="d-block w-100 h-100 object-fit-cover" data-bs-toggle="modal" data-bs-target="#imageModal" data-slide-index="{{ forloop.counter0 }}" alt="Image of build">
+                                <img src="{{ image.image.url }}" class="d-block w-100 h-100 object-fit-cover" data-bs-toggle="modal" data-bs-target="#imageModal" data-slide-index="{{ forloop.counter0 }}" alt="Image of Project">
                             </div>
                         {% endfor %}
                         
                     </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#buildImageCarousel" data-bs-slide="prev">
+                    <button class="carousel-control-prev" type="button" data-bs-target="#ProjectImageCarousel" data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Previous</span>
                     </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#buildImageCarousel" data-bs-slide="next">
+                    <button class="carousel-control-next" type="button" data-bs-target="#ProjectImageCarousel" data-bs-slide="next">
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Next</span>
                     </button>
@@ -59,12 +59,12 @@
             </div>
             <hr>
             <h5 class="mb-0 mt-3">Tags:</h5>
-            {% if build.tags.all.count == 0 %}
+            {% if Project.tags.all.count == 0 %}
             <p class="mb-0">No tags found...</p>
             {% else %}
                 <div class="d-flex flex-wrap gap-2 mt-2">
                     <form class="mb-0" method="GET" action="{% url 'showcase' %}">
-                        {% for tag in build.tags.all %}
+                        {% for tag in Project.tags.all %}
                         <button class="mt-1 btn {% if tag.name in request.GET.filters %}btn-secondary{% else %}btn-outline-secondary{% endif %}" type="submit" name="filters" value="{% if tag.name in request.GET.filters %}{{ request.GET.filters|exclude:tag.name }}{% else %}{{ request.GET.filters }}{{ tag.name }},{% endif %}" type="button">{{tag.name}}</button>{% endfor %}
                     </form>
                 </div>
@@ -76,29 +76,29 @@
         <div class="modal-dialog" style="max-width: 95vw;">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Build Images</h5>
+                    <h5 class="modal-title">Project Images</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div id="buildImageModalCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="10000">
+                    <div id="ProjectImageModalCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="10000">
                         <div class="carousel-indicators">                       
-                            {% for image in build.images.all %}
-                                <button type="button" data-bs-target="#buildImageModalCarousel" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %} aria-label="Slide 2"></button>
+                            {% for image in Project.images.all %}
+                                <button type="button" data-bs-target="#ProjectImageModalCarousel" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %} aria-label="Slide 2"></button>
                             {% endfor %}
                         </div>
                         <div class="carousel-inner">
-                            {% for image in build.images.all %}
+                            {% for image in Project.images.all %}
                                 <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                                    <img src="{{ image.image.url }}" class="d-block w-100 object-fit-contain" style="max-height: calc(100vh - 150px);" alt="Image of build">
+                                    <img src="{{ image.image.url }}" class="d-block w-100 object-fit-contain" style="max-height: calc(100vh - 150px);" alt="Image of Project">
                                 </div>
                             {% endfor %}
                             
                         </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#buildImageModalCarousel" data-bs-slide="prev">
+                        <button class="carousel-control-prev" type="button" data-bs-target="#ProjectImageModalCarousel" data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Previous</span>
                         </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#buildImageModalCarousel" data-bs-slide="next">
+                        <button class="carousel-control-next" type="button" data-bs-target="#ProjectImageModalCarousel" data-bs-slide="next">
                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Next</span>
                         </button>
@@ -110,10 +110,10 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            const modalCarouselEl = document.getElementById('buildImageModalCarousel');
+            const modalCarouselEl = document.getElementById('ProjectImageModalCarousel');
             const modalCarousel = bootstrap.Carousel.getOrCreateInstance(modalCarouselEl);
     
-            document.querySelectorAll('#buildImageCarousel img[data-slide-index]').forEach(img => {
+            document.querySelectorAll('#ProjectImageCarousel img[data-slide-index]').forEach(img => {
                 img.addEventListener('click', function () {
                     const index = parseInt(this.dataset.slideIndex, 10);
                     modalCarousel.to(index);

@@ -16,14 +16,14 @@ class Tag(models.Model):
     def __str__(self):
         return self.name
 
-class Build(models.Model):
+class Project(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField()
     creator = models.CharField(max_length=100)
     coordsx = models.IntegerField(null=True, blank=True)
     coordsy = models.IntegerField(null=True, blank=True)
     coordsz = models.IntegerField(null=True, blank=True)
-    tags = models.ManyToManyField(Tag, related_name='builds', through='BuildTag')
+    tags = models.ManyToManyField(Tag, related_name='builds', through='ProjectTag')
     slug = models.SlugField(unique=True, blank=True)
 
     accepted = models.BooleanField(default=False)
@@ -53,8 +53,8 @@ class Build(models.Model):
     def __str__(self):
         return self.title
     
-@receiver(post_delete, sender=Build)
-def deleteBuildFiles(sender, instance, **kwargs):
+@receiver(post_delete, sender=Project)
+def deleteProjectFiles(sender, instance, **kwargs):
     imageFolder = os.path.join(settings.MEDIA_ROOT, 'builds', str(instance.id))
     if os.path.isdir(imageFolder):
         shutil.rmtree(imageFolder)
@@ -67,7 +67,7 @@ def getImageUploadPath(instance, filename):
 
 class Image(models.Model):
     name = models.CharField(null=True, blank=True)
-    build = models.ForeignKey(Build, on_delete=models.CASCADE, related_name='images')
+    build = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='images')
     image = ResizedImageField(force_format="WEBP", size=None, upload_to=getImageUploadPath)
     thumbnail = models.BooleanField(default=False)
 
@@ -79,6 +79,6 @@ def deleteImageFile(sender, instance, **kwargs):
     if instance.image and os.path.isfile(instance.image.path):
         os.remove(instance.image.path)
 
-class BuildTag(models.Model):
-    build = models.ForeignKey(Build, on_delete=models.CASCADE)
+class ProjectTag(models.Model):
+    build = models.ForeignKey(Project, on_delete=models.CASCADE)
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE)

@@ -10,17 +10,17 @@
 {% block content %}
     <div class="container-xxl p-3 p-lg-5" style="min-height: calc(100% - 77px);">
         <div class="row g-3 g-lg-5">
-            {% comment %} Featured Build {% endcomment %}
-            {% if featuredBuild %}
-                <div class="col-12 col-md-6 d-flex" id="featured-build-tile">
+            {% comment %} Featured Project {% endcomment %}
+            {% if featuredProject %}
+                <div class="col-12 col-md-6 d-flex" id="featured-project-tile">
                     <div class="d-flex flex-column bg-body-tertiary border p-2 px-3 shadow flex-grow-1">
-                        <h2 class="mb-0">Featured Build</h2>
+                        <h2 class="mb-0">Featured Project</h2>
                         <hr>
-                        <a href="{% url 'buildDetails' featuredBuild.slug %}" class="d-block text-reset text-decoration-none w-100">
-                            <img src="{% if featuredBuild.thumbnail.image %}{{ featuredBuild.thumbnail.image.url }}{% else %}{% static 'images/LogoBW.svg' %}{% endif %}" onerror="this.src='{% static 'images/LogoBW.svg' %}'" class="w-100 build-image">
+                        <a href="{% url 'projectDetails' featuredProject.slug %}" class="d-block text-reset text-decoration-none w-100">
+                            <img src="{% if featuredProject.thumbnail.image %}{{ featuredProject.thumbnail.image.url }}{% else %}{% static 'images/LogoBW.svg' %}{% endif %}" onerror="this.src='{% static 'images/LogoBW.svg' %}'" class="w-100 project-image">
                             <hr>
-                            <h5 class="mt-2 fs-4 build-details text-capitalize">{{featuredBuild.title}}</h5>
-                            <p class="mb-0 fst-italic build-details">{{featuredBuild.creator}}</p>
+                            <h5 class="mt-2 fs-4 project-details text-capitalize">{{featuredProject.title}}</h5>
+                            <p class="mb-0 fst-italic project-details">{{featuredProject.creator}}</p>
                         </a>
                     </div>
                 </div>
@@ -51,17 +51,17 @@
                 </div>
             </div>
 
-            {% comment %} Recent Build {% endcomment %}
-            {% if recentBuild %}
+            {% comment %} Recent Project {% endcomment %}
+            {% if recentProject %}
                 <div class="col-12 col-md-6 d-flex">
                     <div class="d-flex flex-column bg-body-tertiary border p-2 px-3 shadow flex-grow-1">
-                        <h2 class="mb-0">Recent Build</h2>
+                        <h2 class="mb-0">Recent Project</h2>
                         <hr>
-                        <a href="{% url 'buildDetails' recentBuild.slug %}" class="d-block text-reset text-decoration-none w-100">
-                            <img src="{% if recentBuild.thumbnail.image %}{{ recentBuild.thumbnail.image.url }}{% else %}{% static 'images/LogoBW.svg' %}{% endif %}" onerror="this.src='{% static 'images/LogoBW.svg' %}'" class="w-100 build-image">
+                        <a href="{% url 'projectDetails' recentProject.slug %}" class="d-block text-reset text-decoration-none w-100">
+                            <img src="{% if recentProject.thumbnail.image %}{{ recentProject.thumbnail.image.url }}{% else %}{% static 'images/LogoBW.svg' %}{% endif %}" onerror="this.src='{% static 'images/LogoBW.svg' %}'" class="w-100 project-image">
                             <hr>
-                            <h5 class="mt-2 fs-4 build-details text-capitalize">{{recentBuild.title}}</h5>
-                            <p class="mb-0 fst-italic build-details">{{recentBuild.creator}}</p>
+                            <h5 class="mt-2 fs-4 project-details text-capitalize">{{recentProject.title}}</h5>
+                            <p class="mb-0 fst-italic project-details">{{recentProject.creator}}</p>
                         </a>
                     </div>
                 </div>
@@ -74,18 +74,18 @@
                         <h2 class="mb-0">Images</h2>
                         <hr>
                         <div class="ratio ratio-4x3 border border-black border-1 rounded">
-                            <div id="buildImageCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="10000">
+                            <div id="projectImageCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="10000">
                                 <div class="carousel-indicators">                       
                                     {% for image in images %}
-                                    <button type="button" data-bs-target="#buildImageCarousel" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %} aria-label="Slide 2"></button>
+                                    <button type="button" data-bs-target="#projectImageCarousel" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %} aria-label="Slide 2"></button>
                                     {% endfor %}
                                 </div>
                                 <div class="carousel-inner h-100">
                                     {% for image in images %}
-                                        {% if image.build.slug %}
-                                            <a href="{% url 'buildDetails' image.build.slug %}">
+                                        {% if image.project.slug %}
+                                            <a href="{% url 'projectDetails' image.project.slug %}">
                                                 <div class="carousel-item h-100 {% if forloop.first %}active{% endif %}">
-                                                    <img src="{{ image.image.url }}" class="d-block w-100 h-100 object-fit-cover" data-bs-toggle="modal" data-bs-target="#imageModal" data-slide-index="{{ forloop.counter0 }}" alt="Image of build">
+                                                    <img src="{{ image.image.url }}" class="d-block w-100 h-100 object-fit-cover" data-bs-toggle="modal" data-bs-target="#imageModal" data-slide-index="{{ forloop.counter0 }}" alt="Image of project">
                                                 </div>
                                             </a>
                                         {% else %}
@@ -96,11 +96,11 @@
                                     {% endfor %}
                                     
                                 </div>
-                                <button class="carousel-control-prev" type="button" data-bs-target="#buildImageCarousel" data-bs-slide="prev">
+                                <button class="carousel-control-prev" type="button" data-bs-target="#projectImageCarousel" data-bs-slide="prev">
                                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                     <span class="visually-hidden">Previous</span>
                                 </button>
-                                <button class="carousel-control-next" type="button" data-bs-target="#buildImageCarousel" data-bs-slide="next">
+                                <button class="carousel-control-next" type="button" data-bs-target="#projectImageCarousel" data-bs-slide="next">
                                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                     <span class="visually-hidden">Next</span>
                                 </button>

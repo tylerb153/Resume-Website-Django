@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.contrib import messages
-from .models import Build, Tag, Image, BuildTag
-from .forms import BuildForm
+from .models import Project, Tag, Image, ProjectTag
+from .forms import ProjectForm
 
 import random
 import requests
@@ -11,47 +11,47 @@ import os
 
 # Create your views here.
 def showcase(request):
-    # Display the searched and filtered builds
+    # Display the searched and filtered projects
     searchQuery = request.GET.get('search', '')
     filter_string = request.GET.get('filters', '')
 
-    builds = Build.objects.filter(Q(title__icontains=searchQuery) | Q(creator__icontains=searchQuery) | Q(tags__name__icontains=searchQuery)).distinct()
+    projects = Project.objects.filter(Q(title__icontains=searchQuery) | Q(creator__icontains=searchQuery) | Q(tags__name__icontains=searchQuery)).distinct()
 
     for filter in filter_string.split(","):
         if filter != "":
-            builds = builds.filter(tags__name__iexact=filter)
+            projects = projects.filter(tags__name__iexact=filter)
 
-    builds = builds.filter(accepted=True)
+    projects = projects.filter(accepted=True)
 
-    paginator = Paginator(builds.order_by('id'), 12)
+    paginator = Paginator(projects.order_by('id'), 12)
     page_number = request.GET.get('page')
-    builds = paginator.get_page(page_number)
+    projects = paginator.get_page(page_number)
     
     tags = Tag.objects.filter(accepted=True)
     tags = list(tags.values_list("name", flat=True))
 
-    context = {'tags': tags, 'builds': builds, }
+    context = {'tags': tags, 'projects': projects, }
     return render(request, 'showcase.html', context)
 
-def createBuild(request):
+def createProject(request):
     if request.method == "POST":
-        form = BuildForm(request.POST)
+        form = ProjectForm(request.POST)
         tags = Tag.objects.all()
         try:
             if form.is_valid():
                 try:
-                    build = form.save()
+                    project = form.save()
                 except Exception as e:
-                    raise Exception(f"Creating Build Failed!\n{e}")
+                    raise Exception(f"Creating Project Failed!\n{e}")
 
                 #Process the images uploaded
                 try:
                     thumbnail = request.FILES['thumbnail']
-                    thumbnail = Image.objects.create(name=thumbnail.name , build=build, image=thumbnail, thumbnail=True)
+                    thumbnail = Image.objects.create(name=thumbnail.name , project=project, image=thumbnail, thumbnail=True)
 
                     images = request.FILES.getlist('images') 
                     for image in images:
-                        Image.objects.create(name=image.name, build=build, image=image, thumbnail=False)
+                        Image.objects.create(name=image.name, project=project, image=image, thumbnail=False)
                 except Exception as e:
                     raise Exception(f"Image Processing Failed!\n{e}")
 
@@ -65,26 +65,26 @@ def createBuild(request):
                             tagName = tagName.strip()
                             existingTag = tags.filter(name__iexact=tagName)
                             if existingTag:
-                                BuildTag.objects.create(tag=existingTag.first(), build=build)
+                                ProjectTag.objects.create(tag=existingTag.first(), project=project)
                             else:
                                 tag = Tag.objects.create(name=tagName)
-                                BuildTag.objects.create(tag=tag, build=build)
+                                ProjectTag.objects.create(tag=tag, project=project)
                 except Exception as e:
                     raise Exception(f"Creating tags Failed!\n{e}")
 
-                messages.success(request, 'Uploaded Build Successful! Please wait for approval.')
+                messages.success(request, 'Uploaded Project Successful! Please wait for approval.')
                 
                 try:
                     webhookURL = os.getenv('DISCORD_WEBHOOK_URL')
-                    # print(request.build_absolute_uri(thumbnail.image.url))
+                    # print(request.project_absolute_uri(thumbnail.image.url))
                     json = {
-                        "content": f"{build.creator} just uploaded {build.title}",
+                        "content": f"{project.creator} just uploaded {project.title}",
                         "embeds": [
                             {
                                 "image": {
-                                    "url": request.build_absolute_uri(thumbnail.image.url)
+                                    "url": request.project_absolute_uri(thumbnail.image.url)
                                 },
-                                "description": f"[Click here to review](http://192.168.254.10:8000/admin/showcase/build/)"
+                                "description": f"[Click here to review](http://192.168.254.10:8000/admin/showcase/project/)"
                             }
                         ]
                     }
@@ -94,10 +94,10 @@ def createBuild(request):
                 except Exception as e:
                     try:
                         json = {
-                            "content": f"{build.creator} just uploaded {build.title}",
+                            "content": f"{project.creator} just uploaded {project.title}",
                             "embeds": [
                             {
-                                "description": f"[Click here to review](http://192.168.254.10:8000/admin/showcase/build/)"
+                                "description": f"[Click here to review](http://192.168.254.10:8000/admin/showcase/project/)"
                             }
                         ]
                         }
@@ -107,27 +107,27 @@ def createBuild(request):
                     except Exception as e:
                         print(f"Could not send webhook:\n{e}")            
             else:
-                raise Exception("Build Upload Failed!")
+                raise Exception("Project Upload Failed!")
         except Exception as e:
-            print(f"Error in build upload:\n{e}")
+            print(f"Error in project upload:\n{e}")
             messages.error(request, 'Upload Failed! Please refresh and try again', extra_tags='danger') 
 
     return redirect('showcase')
 
-def buildDetails(request, slug):
-    # Display the specific build
+def projectDetails(request, slug):
+    # Display the specific project
     if slug:
-        builds = Build.objects.filter(accepted=True)
-        build = builds.filter(Q(slug=slug)).first()
+        projects = Project.objects.filter(accepted=True)
+        project = projects.filter(Q(slug=slug)).first()
 
-        builds = list(builds)
-        builds.remove(build)
-        while len(builds) >= 6:
-            builds.remove(random.choice(builds))
+        projects = list(projects)
+        projects.remove(project)
+        while len(projects) >= 6:
+            projects.remove(random.choice(projects))
 
-        random.shuffle(builds)
+        random.shuffle(projects)
 
 
-        context = {'build': build, 'builds': builds}
-        return render(request, 'buildDetails.html', context)
+        context = {'project': project, 'projects': projects}
+        return render(request, 'projectDetails.html', context)
     

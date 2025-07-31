@@ -1,12 +1,10 @@
 .vscode
 __pycache__
 *.sqlite3
-BuildTestData.py
 .DS_Store
-Minecraft-Cult-Website/media
+Resume-Website/media
 migrations
 .env
 media-files
 db
 sqlite-db
-minecraft-cult-site-chart

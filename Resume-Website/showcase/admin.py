@@ -26,8 +26,8 @@ class ProjectAdmin(admin.ModelAdmin):
         self.message_user(
             request,
             ngettext(
-                '%d build accepted successfully.',
-                '%d builds accepted successfully.',
+                '%d project accepted successfully.',
+                '%d projects accepted successfully.',
                 amountUpdated
             )
             % amountUpdated,
@@ -41,8 +41,8 @@ class ProjectAdmin(admin.ModelAdmin):
         self.message_user(
             request,
             ngettext(
-                '%d build unaccepted successfully.',
-                '%d builds unaccepted successfully.',
+                '%d project unaccepted successfully.',
+                '%d projects unaccepted successfully.',
                 amountUpdated
             )
             % amountUpdated,
@@ -91,6 +91,6 @@ class TagAdmin(admin.ModelAdmin):
 
 @admin.register(Image)
 class ImageAdmin(admin.ModelAdmin):
-    list_display = ['name', 'build', 'thumbnail']
-    list_filter = ['build', 'thumbnail']
-    search_fields = ['name', 'build']
+    list_display = ['name', 'project', 'thumbnail']
+    list_filter = ['project', 'thumbnail']
+    search_fields = ['name', 'project']

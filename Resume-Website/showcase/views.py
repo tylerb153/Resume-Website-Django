@@ -107,7 +107,7 @@ def createProject(request):
                     except Exception as e:
                         print(f"Could not send webhook:\n{e}")            
             else:
-                raise Exception("Project Upload Failed!")
+                raise Exception("Form doesn't match!")
         except Exception as e:
             print(f"Error in project upload:\n{e}")
             messages.error(request, 'Upload Failed! Please refresh and try again', extra_tags='danger') 

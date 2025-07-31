@@ -23,7 +23,7 @@ class Project(models.Model):
     coordsx = models.IntegerField(null=True, blank=True)
     coordsy = models.IntegerField(null=True, blank=True)
     coordsz = models.IntegerField(null=True, blank=True)
-    tags = models.ManyToManyField(Tag, related_name='builds', through='ProjectTag')
+    tags = models.ManyToManyField(Tag, related_name='projects', through='ProjectTag')
     slug = models.SlugField(unique=True, blank=True)
 
     accepted = models.BooleanField(default=False)
@@ -55,19 +55,19 @@ class Project(models.Model):
     
 @receiver(post_delete, sender=Project)
 def deleteProjectFiles(sender, instance, **kwargs):
-    imageFolder = os.path.join(settings.MEDIA_ROOT, 'builds', str(instance.id))
+    imageFolder = os.path.join(settings.MEDIA_ROOT, 'projects', str(instance.id))
     if os.path.isdir(imageFolder):
         shutil.rmtree(imageFolder)
 
 def getImageUploadPath(instance, filename):
-    if instance.build:
-        return f'builds/{instance.build.id}/{filename}'
+    if instance.project:
+        return f'projects/{instance.project.id}/{filename}'
     else:
-        return f'builds/media/{filename}'
+        return f'projects/media/{filename}'
 
 class Image(models.Model):
     name = models.CharField(null=True, blank=True)
-    build = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='images')
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='images')
     image = ResizedImageField(force_format="WEBP", size=None, upload_to=getImageUploadPath)
     thumbnail = models.BooleanField(default=False)
 
@@ -80,5 +80,5 @@ def deleteImageFile(sender, instance, **kwargs):
         os.remove(instance.image.path)
 
 class ProjectTag(models.Model):
-    build = models.ForeignKey(Project, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE)

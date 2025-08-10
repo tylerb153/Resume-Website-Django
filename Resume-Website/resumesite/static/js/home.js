@@ -4,31 +4,34 @@ window.addEventListener('ServerInfoLoaded', (e) => {
 });
 
 function setInfoPanelDetails(data) {
-    // console.log(data)
-    const statusElement = document.getElementById('serverStatus');
-    const versionElement = document.getElementById('version-label');
-    const playersListElement = document.getElementById('serverPlayersList');
-    const playersLabel = document.getElementById('serverPlayersLabel');
+    console.log(data);
 
-    if (data.online) {
-        statusElement.classList.remove('text-danger');
-        statusElement.classList.add('text-success');
-        statusElement.innerText = "Online";
-        versionElement.innerText = `Version: ${data.version.name_clean}`;
-        playersLabel.innerText = `${data.players.online}/${data.players.max} Players`
+    // data comes in as an array of [launchData, eventData] due to coming from two separate API calls
+    const launchData = data[0]
+    const eventData = data[1]
 
-        var playersListHTML = "";
-        for (player of data.players.list) {
-            playersListHTML += `<li><i class="bi bi-person-fill me-1"></i>${player.name_clean}</li>`;
-        }
-        playersListElement.innerHTML = playersListHTML;
 
-    } else if (!data.online) {
-        statusElement.classList.remove('text-success');
-        statusElement.classList.add('text-danger');
-        statusElement.innerText = "Offline";
-        versionElement.innerText = "";
-        playersListElement.innerHTML = "";
-        playersLabel.innerText = "";
-    }
+    // Setting the Launch details
+    const launchNameElement = document.getElementById('launchName');
+    const launchRocketElement = document.getElementById('launchRocket');
+    const launchDestinationElement = document.getElementById('launchDestination');
+    const launchLaunchpadElement = document.getElementById('launchLaunchpad');
+    const launchTimeElement = document.getElementById('launchTime');
+
+    launchNameElement.innerText = `${launchData.name}`;
+    launchRocketElement.innerText = `${launchData.rocket.configuration.name}`;
+    launchDestinationElement.innerText = `${launchData.mission.orbit.name}`;
+    launchLaunchpadElement.innerText = `${launchData.pad.name} at ${launchData.pad.location.name}`;
+    launchTimeElement.innerText =  `${launchData.window_start}`;
+
+
+    // Setting the Event details
+    const eventNameElement = document.getElementById('eventName');
+    const eventDescriptionElement = document.getElementById('eventDescription');
+    const eventTimeElement = document.getElementById('eventTime');
+
+    eventNameElement.innerText = `${eventData.name}`;
+    eventDescriptionElement.innerText = `${eventData.description}`;
+    eventTimeElement.innerText = `${eventData.date}`;
+
 }

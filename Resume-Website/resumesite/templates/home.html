@@ -26,28 +26,34 @@
                 </div>
             {% endif %}
 
-            {% comment %} Server Info {% endcomment %}
+            {% comment %} Upcoming Space Events {% endcomment %}
             <div class="col-12 col-md-6 d-flex" style="min-height: 350px;">
                 <div class="d-flex flex-column bg-body-tertiary border p-2 px-3 shadow flex-grow-1">
-                    <h2 class="mb-0">Server Info</h2>
+                    <h2 class="mb-0">Upcoming Space Events</h2>
                     <hr>
-                    <div class="d-flex align-items-center justify-content-center mx-auto" style="width: 198px;">
-                        <span class="bi-copy pe-1 cursor-pointer" onclick="copyServerAddress(this.nextElementSibling)"></span>
-                        <button class="nav-link text-decoration-underline" onclick="copyServerAddress(this)" style="">mc.theminecraftcult.com</button>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <p class="mb-0">Status: <span class="text-danger" id="serverStatus"></span></p>
-                        <p class="mb-0" id="version-label"></p>
-                    </div>
-                    <hr>
-                    <div class="d-flex justify-content-between">
-                        <p class="mb-0">Players:</p>
-                        <p class="mb-0" id="serverPlayersLabel"></p>
-                    </div>
-                    <ul class="list-unstyled mb-0 border d-flex h-100">
-                        <div class="overflow-y-auto" id="serverPlayersList">
+                    <div class="d-flex w-100 h-100">
+                        <div class="flex-column w-50">
+                            <h4 class="mb-0">Next Launch</h3>
+                            <hr>
+                            <div>
+                                <p class="mb-0 text-nowrap text-truncate" id="launchName"></p>
+                                <p class="mb-0 text-nowrap text-truncate" id="launchRocket"></p>
+                                <p class="mb-0 text-nowrap text-truncate" id="launchDestination"></p>
+                                <p class="mb-0 text-nowrap text-truncate" id="launchLaunchpad"></p>
+                                <p class="mb-0 text-nowrap text-truncate" id="launchTime"></p>
+                            </div>
                         </div>
-                    </ul>
+                        <div class="vr h-100"></div>
+                        <div class="flex-column w-50">
+                            <h4 class="ps-3 mb-0">Next Event</h3>
+                            <hr>
+                            <div class="ps-3">
+                                <p class="text-nowrap text-truncate" id="eventName"></p>
+                                <p class="text-nowrap text-truncate" id="eventDescription"></p>
+                                <p class="mb-0 text-nowrap text-truncate" id="eventTime"></p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -111,9 +117,5 @@
             {% endif %}
         </div>
     </div>
-    <div class="position-fixed me-5 top-0 start-0 h-100 w-100 overflow-hidden pe-none z-n1 background-div" style="background-image: url({% static 'images/homeBackground.webp' %});">
-        {% if mapLink != "Offline" %}
-            <iframe class="background-iframe" src="{{ mapLink }}?worldname=world&mapname=surface&zoom=5&x=189&y=64&z=4&nogui=true" tabindex="-1" id="background-iframe" style="width: 150%; height: 150%;"></iframe>
-        {% endif %}
-    </div>
+    <div class="position-fixed me-5 top-0 start-0 h-100 w-100 overflow-hidden pe-none z-n1 background-div" style="background-image: url({% static 'images/homeBackground.webp' %});"></div>
 {% endblock %}

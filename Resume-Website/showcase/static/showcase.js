@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
             mobileWasClearedByMouse = false;
         });
     }
-    // Tagify for the create build model
+    // Tagify for the create project model
     const input = document.querySelector('input[name="tagsInput"]');
     if (input) {
         const tags = JSON.parse(document.getElementById('tags').textContent);

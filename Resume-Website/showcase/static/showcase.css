@@ -16,25 +16,25 @@
     padding-right: 12px;
 }
 
-.build-container {
+.project-container {
     max-width: 339px;
     padding-top: calc(var(--bs-gutter-x) * .5);
     padding-bottom: calc(var(--bs-gutter-x) * .5);
     transition: all .3s ease-out;
 }
-.build-container:hover {
+.project-container:hover {
     transform: scale(1.05);
 }
-.build-container:active {
+.project-container:active {
     transform: scale(1.02);
 }
 
-.build-image {
+.project-image {
     object-fit: cover; 
     aspect-ratio: 16/9;
 }
 
-.build-details {
+.project-details {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

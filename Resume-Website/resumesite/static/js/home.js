@@ -3,13 +3,7 @@ window.addEventListener('ServerInfoLoaded', (e) => {
     setInfoPanelDetails(data);
 });
 
-function setInfoPanelDetails(data) {
-    console.log(data);
-
-    // data comes in as an array of [launchData, eventData] due to coming from two separate API calls
-    const launchData = data[0]
-    const eventData = data[1]
-
+function setInfoPanelDetails(launchData) {
 
     // Setting the Launch details
     const launchNameElement = document.getElementById('launchName');
@@ -23,15 +17,4 @@ function setInfoPanelDetails(data) {
     launchDestinationElement.innerText = `${launchData.mission.orbit.name}`;
     launchLaunchpadElement.innerText = `${launchData.pad.name} at ${launchData.pad.location.name}`;
     launchTimeElement.innerText =  `${launchData.window_start}`;
-
-
-    // Setting the Event details
-    const eventNameElement = document.getElementById('eventName');
-    const eventDescriptionElement = document.getElementById('eventDescription');
-    const eventTimeElement = document.getElementById('eventTime');
-
-    eventNameElement.innerText = `${eventData.name}`;
-    eventDescriptionElement.innerText = `${eventData.description}`;
-    eventTimeElement.innerText = `${eventData.date}`;
-
 }

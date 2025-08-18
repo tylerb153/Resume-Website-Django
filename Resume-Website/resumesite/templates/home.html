@@ -32,8 +32,8 @@
                     <h2 class="mb-0">Upcoming Space Events</h2>
                     <hr>
                     <div class="d-flex w-100 h-100">
-                        <div class="flex-column w-50">
-                            <h4 class="mb-0">Next Launch</h3>
+                        <div class="flex-column w-100">
+                            <h4 class="mb-0">Next Launch</h4>
                             <hr>
                             <div>
                                 <p class="mb-0 text-nowrap text-truncate" id="launchName"></p>
@@ -41,16 +41,6 @@
                                 <p class="mb-0 text-nowrap text-truncate" id="launchDestination"></p>
                                 <p class="mb-0 text-nowrap text-truncate" id="launchLaunchpad"></p>
                                 <p class="mb-0 text-nowrap text-truncate" id="launchTime"></p>
-                            </div>
-                        </div>
-                        <div class="vr h-100"></div>
-                        <div class="flex-column w-50">
-                            <h4 class="ps-3 mb-0">Next Event</h3>
-                            <hr>
-                            <div class="ps-3">
-                                <p class="text-nowrap text-truncate" id="eventName"></p>
-                                <p class="text-nowrap text-truncate" id="eventDescription"></p>
-                                <p class="mb-0 text-nowrap text-truncate" id="eventTime"></p>
                             </div>
                         </div>
                     </div>
@@ -117,5 +107,4 @@
             {% endif %}
         </div>
     </div>
-    <div class="position-fixed me-5 top-0 start-0 h-100 w-100 overflow-hidden pe-none z-n1 background-div" style="background-image: url({% static 'images/homeBackground.webp' %});"></div>
 {% endblock %}

@@ -4,7 +4,7 @@ ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
-COPY Minecraft-Cult-Website/ /app/
+COPY Resume-Website/ /app/
 
 RUN apt-get update
 

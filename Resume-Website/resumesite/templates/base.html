@@ -50,6 +50,12 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'showcase' %}">Projects</a>
                             </li>
+                            {% comment %} <li class="nav-item">
+                                <a class="nav-link" href="{% url 'about' %}">About Me</a>
+                            </li> {% endcomment %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'contact' %}">Contact Me</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -64,6 +70,8 @@
             <div class="d-flex">
                 <a class="link-secondary mx-1" href="{% url 'home' %}">Home</a>
                 <a class="link-secondary mx-1" href="{% url 'showcase' %}">Projects</a>
+                {% comment %} <a class="link-secondary mx-1" href="{% url 'about' %}">About Me</a> {% endcomment %}
+                <a class="link-secondary mx-1" href="{% url 'contact' %}">Contact Me</a>
             </div>
             <a class="link-secondary link-underline link-underline-opacity-0 link m-1">© Tyler Bischoff</a>
         </footer>

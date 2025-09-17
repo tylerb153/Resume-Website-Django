@@ -39,6 +39,11 @@ def mapPage(request):
 
     return render(request, 'map.html', context={"dynmapLive": dynmapLive, "bluemapLive": bluemapLive, "dynmapLink": dynmapLink, "bluemapLink": bluemapLink, "queryString":queryString})
 
+def aboutPage(request):
+    return render(request, 'about.html')
+
+def contactPage(request):
+    return render(request, 'contact.html')
 
 # Figure out if a new featured project needs to be selected in order to make sure it only change once per day
 def updateFeaturedProject():

@@ -29,5 +29,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
     path('projects/', include('showcase.urls')),
+    # path('about/', views.aboutPage, name='about'),
+    path('contact/', views.contactPage, name='contact'),
     path('media/<path:path>', serve, {'document_root': settings.MEDIA_ROOT})
 ]# + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -31,5 +31,6 @@ urlpatterns = [
     path('projects/', include('showcase.urls')),
     # path('about/', views.aboutPage, name='about'),
     path('contact/', views.contactPage, name='contact'),
+    path('contactMessage', views.contactMessage, name='contactMessage'),
     path('media/<path:path>', serve, {'document_root': settings.MEDIA_ROOT})
 ]# + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

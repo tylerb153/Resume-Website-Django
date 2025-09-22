@@ -6,6 +6,15 @@
     <link rel="stylesheet" href="{% static 'css/contact.css' %}">
 {% endblock %}
 {% block content %}
+    <!-- Upload Message -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-dismissible alert-{{ message.tags }} mb-0 shadow">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
     <div class="container-xxl bg-body-tertiary" style="height: calc(100% - 77px);">
         <div class="row h-lg-100">
             <div class="text-center col-12 col-lg-6 mt-3 my-lg-0">
@@ -21,7 +30,7 @@
             </div>
             <div class="text-center col-12 col-lg-6 border-start mt-3 my-lg-0">
                 <h3 class="fw-sembibold mt-3">Contact Me</h3>
-                <form method="post" class="mx-auto w-75">
+                <form method="post" class="mx-auto w-75" method="POST" action="{% url 'contactMessage' %}">
                     {% csrf_token %}
                     <div class="mb-3">
                         <label for="name" class="form-label">Name</label>

@@ -1,9 +1,13 @@
-from django.shortcuts import render
-import requests
+from django.shortcuts import redirect, render
+from django.contrib import messages
+from .forms import ContactForm
 from showcase.models import Project, Image
+
 
 import datetime
 import random
+import os
+import requests
 
 # Create your views here.
 def home(request):
@@ -13,37 +17,37 @@ def home(request):
     # We are going to get the most recent project here for use in the recent project tile
     recentProject = Project.objects.filter(accepted=True).last()
     images = getRandomImages()
-
-    mapLink = "https://dynmap.theminecraftcult.com/"
     
-    context = {'recentProject': recentProject, 'featuredProject': featuredProject, 'images':images, 'mapLink': mapLink}
+    context = {'recentProject': recentProject, 'featuredProject': featuredProject, 'images':images}
     return render(request, 'home.html', context=context)
-
-def mapPage(request):
-    dynmapLink = "https://dynmap.theminecraftcult.com/"
-    bluemapLink = "https://bluemap.theminecraftcult.com/"
-    dynmapLive = False
-    bluemapLive = False
-    try:
-        if requests.head(dynmapLink, timeout=1).status_code == 200:
-                dynmapLive = True
-    except:
-        pass
-    try:
-        if requests.get(bluemapLink, timeout=1, stream=True, headers={"Host": "bluemap.theminecraftcult.com", "User-Agent": "Mozilla/5.0"}).status_code < 400:
-                bluemapLive = True
-    except:
-        pass
-    
-    queryString = request.META.get('QUERY_STRING', '')    
-
-    return render(request, 'map.html', context={"dynmapLive": dynmapLive, "bluemapLive": bluemapLive, "dynmapLink": dynmapLink, "bluemapLink": bluemapLink, "queryString":queryString})
 
 def aboutPage(request):
     return render(request, 'about.html')
 
 def contactPage(request):
     return render(request, 'contact.html')
+
+def contactMessage(request):
+    if request.method == "POST":
+        form = ContactForm(request.POST)
+        try:
+            if form.is_valid():
+                try:
+                    webhookURL = os.getenv("DISCORD_WEBHOOK_URL")
+                    json = {
+                        "content": f"{form.cleaned_data["name"]} just sent the message:\n\t{form.cleaned_data["message"]}\n\nContact them back at [{form.cleaned_data["email"]}](mailto:{form.cleaned_data["email"]})",
+                    }
+                    response = requests.post(url=webhookURL, json=json)
+                    if response.status_code != 204:
+                        raise Exception(f"Could not send webhook returned {response.status_code} {response.reason}")
+                    
+                except Exception as e:
+                    raise Exception(f'Error Sending Message in contactMessage:\n{e}')
+                messages.success(request, 'Message successfully sent!')
+        except Exception as e:
+            print(f"Error in project upload:\n{e}")
+            messages.error(request, 'Failed to send message! Please refresh and try again', extra_tags='danger')
+    return redirect('contact')
 
 # Figure out if a new featured project needs to be selected in order to make sure it only change once per day
 def updateFeaturedProject():
@@ -82,16 +86,3 @@ def getRandomImages() -> list[Image]:
     for project in projects:
         images.extend(project.images.all())
     return random.sample(images, k=min(10, len(images)))
-
-def getMapLink() -> str:
-    try:
-        if requests.head('https://map.tymler.com/', timeout=1).status_code == 200:
-            mapLink = 'https://map.tymler.com/'
-        elif requests.head('https://backupmap.tymler.com/', timeout=1).status_code == 200:
-            mapLink = 'https://backupmap.tymler.com/'
-        else:
-            mapLink = "Offline"
-    except:
-        mapLink = "Offline"
-
-    return mapLink

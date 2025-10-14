@@ -8,6 +8,7 @@ from .forms import ProjectForm
 import random
 import requests
 import os
+import json
 
 # Create your views here.
 def showcase(request):
@@ -77,31 +78,31 @@ def createProject(request):
                 try:
                     webhookURL = os.getenv('DISCORD_WEBHOOK_URL')
                     # print(request.project_absolute_uri(thumbnail.image.url))
-                    json = {
+                    discordJson = {
                         "content": f"{project.creator} just uploaded {project.title}",
                         "embeds": [
                             {
                                 "image": {
                                     "url": request.project_absolute_uri(thumbnail.image.url)
                                 },
-                                "description": f"[Click here to review](http://192.168.254.10:8000/admin/showcase/project/)"
+                                "description": f"[Click here to review](http://192.168.254.10:8001/admin/showcase/project/)"
                             }
                         ]
                     }
-                    response = requests.post(url=webhookURL, json=json)
+                    response = requests.post(url=webhookURL, json=discordJson)
                     if response.status_code != 204:
                         raise Exception(f"Could not send webhook returned {response.status_code} {response.reason}")
                 except Exception as e:
                     try:
-                        json = {
+                        discordJson = {
                             "content": f"{project.creator} just uploaded {project.title}",
                             "embeds": [
-                            {
-                                "description": f"[Click here to review](http://192.168.254.10:8000/admin/showcase/project/)"
-                            }
-                        ]
+                                {
+                                    "description": f"[Click here to review](http://192.168.254.10:8001/admin/showcase/project/)"
+                                }
+                            ]
                         }
-                        requests.post(url=webhookURL, json=json)
+                        requests.post(url=webhookURL, json=discordJson)
                         if response.status_code != 204:
                             raise Exception(f"Could not send webhook returned {response.status_code} {response.reason}")
                     except Exception as e:

@@ -15,7 +15,7 @@ COPY entrypoint.sh /app/
 RUN chmod +x entrypoint.sh
 
 # CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
-# CMD ["gunicorn", "--bind", "0.0.0.0:8000", "minecraftcultsite.wsgi:application"]
+# CMD ["gunicorn", "--bind", "0.0.0.0:8000", "resumesite.wsgi:application"]
 
 ENTRYPOINT ["/app/entrypoint.sh"]
 

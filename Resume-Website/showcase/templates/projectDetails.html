@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% load showcase_filters %}
-{% block title %}{{ Project.title }}{% endblock %}
+{% block title %}{{ project.title }}{% endblock %}
 {% block head %}
     <link rel="stylesheet" href="{% static 'showcase.css' %}">
 {% endblock %}
@@ -11,36 +11,31 @@
         {% comment %} Other Projects {% endcomment %}
         <div class="d-none d-lg-flex flex-column bg-body-tertiary p-3 sidebar align-self-stretch" style="">
             <h2 class="fw-bold">More Projects</h2>
-            {% for Project in Projects %}
-                <a href="{% url 'ProjectDetails' Project.slug %}" class="d-block shadow mt-3 Project-container text-reset text-decoration-none w-100" style="padding:.75rem;">
-                    <img src="{% if Project.thumbnail.image %}{{ Project.thumbnail.image.url }}{% else %}{% static 'images/LogoBW.svg' %}{% endif %}" onerror="this.src='{% static 'images/LogoBW.svg' %}'" class="w-100 Project-image">
+            {% for project in projects %}
+                <a href="{% url 'projectDetails' project.slug %}" class="d-block shadow mt-3 project-container text-reset text-decoration-none w-100" style="padding:.75rem;">
+                    <img src="{% if project.thumbnail.image %}{{ project.thumbnail.image.url }}{% else %}{% static 'images/LogoBW.svg' %}{% endif %}" onerror="this.src='{% static 'images/LogoBW.svg' %}'" class="w-100 project-image">
                     <hr>
-                    <h5 class="mt-2 fs-4 Project-details text-capitalize">{{Project.title}}</h5>
-                    <p class="mb-0 fst-italic Project-details">{{Project.creator}}</p>
+                    <h5 class="mt-2 fs-4 project-details text-capitalize">{{project.title}}</h5>
+                    <p class="mb-0 fst-italic project-details">{{project.creator}}</p>
                 </a>
             {% endfor %}
         </div>
         <div class="vr d-none d-lg-block"></div>
         <div class="container-fluid p-lg-5 pt-5 mb-3" style="max-width: 1700px;">
-            <h1 class="text-capitalize mb-0">{{ Project.title }}</h1>
-            <h3 class="fst-italic mb-0">{{ Project.creator }}</h3>
-            <div class="d-flex text-body-tertiary mb-0 mt-2 fs-5">
-                {% if Project.coordsx != null %}<p class="mb-0">x: {{Project.coordsx}}&nbsp;&nbsp;&nbsp;&nbsp;</p>{% endif %}
-                {% if Project.coordsy != null %}<p class="mb-0">y: {{Project.coordsy}}&nbsp;&nbsp;&nbsp;&nbsp;</p>{% endif %}
-                {% if Project.coordsz != null %}<p class="mb-0">z: {{Project.coordsz}}</p>{% endif %}
-            </div>
+            <h1 class="text-capitalize mb-0">{{ project.title }}</h1>
+            <h3 class="fst-italic mb-0">{{ project.creator }}</h3>
             <h5 class="mb-0 mt-3">Description:</h5>
-            <p class="">{{ Project.description }}</p>
+            <p class="">{{ project.description }}</p>
             {% comment %} Carousel {% endcomment %}
             <div class="ratio ratio-4x3 mt-5 border border-black border-3 rounded">
                 <div id="ProjectImageCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="10000">
                     <div class="carousel-indicators">                       
-                        {% for image in Project.images.all %}
+                        {% for image in project.images.all %}
                             <button type="button" data-bs-target="#ProjectImageCarousel" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %} aria-label="Slide 2"></button>
                         {% endfor %}
                     </div>
                     <div class="carousel-inner h-100">
-                        {% for image in Project.images.all %}
+                        {% for image in project.images.all %}
                             <div class="carousel-item h-100 {% if forloop.first %}active{% endif %}">
                                 <img src="{{ image.image.url }}" class="d-block w-100 h-100 object-fit-cover" data-bs-toggle="modal" data-bs-target="#imageModal" data-slide-index="{{ forloop.counter0 }}" alt="Image of Project">
                             </div>
@@ -59,12 +54,12 @@
             </div>
             <hr>
             <h5 class="mb-0 mt-3">Tags:</h5>
-            {% if Project.tags.all.count == 0 %}
+            {% if project.tags.all.count == 0 %}
             <p class="mb-0">No tags found...</p>
             {% else %}
                 <div class="d-flex flex-wrap gap-2 mt-2">
                     <form class="mb-0" method="GET" action="{% url 'showcase' %}">
-                        {% for tag in Project.tags.all %}
+                        {% for tag in project.tags.all %}
                         <button class="mt-1 btn {% if tag.name in request.GET.filters %}btn-secondary{% else %}btn-outline-secondary{% endif %}" type="submit" name="filters" value="{% if tag.name in request.GET.filters %}{{ request.GET.filters|exclude:tag.name }}{% else %}{{ request.GET.filters }}{{ tag.name }},{% endif %}" type="button">{{tag.name}}</button>{% endfor %}
                     </form>
                 </div>
@@ -82,12 +77,12 @@
                 <div class="modal-body">
                     <div id="ProjectImageModalCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="10000">
                         <div class="carousel-indicators">                       
-                            {% for image in Project.images.all %}
+                            {% for image in project.images.all %}
                                 <button type="button" data-bs-target="#ProjectImageModalCarousel" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %} aria-label="Slide 2"></button>
                             {% endfor %}
                         </div>
                         <div class="carousel-inner">
-                            {% for image in Project.images.all %}
+                            {% for image in project.images.all %}
                                 <div class="carousel-item {% if forloop.first %}active{% endif %}">
                                     <img src="{{ image.image.url }}" class="d-block w-100 object-fit-contain" style="max-height: calc(100vh - 150px);" alt="Image of Project">
                                 </div>

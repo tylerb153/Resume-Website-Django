@@ -20,9 +20,6 @@ class Project(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField()
     creator = models.CharField(max_length=100)
-    coordsx = models.IntegerField(null=True, blank=True)
-    coordsy = models.IntegerField(null=True, blank=True)
-    coordsz = models.IntegerField(null=True, blank=True)
     tags = models.ManyToManyField(Tag, related_name='projects', through='ProjectTag')
     slug = models.SlugField(unique=True, blank=True)
 

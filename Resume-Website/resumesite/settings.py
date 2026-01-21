@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['tylerbischoff.dev',
                  '127.0.0.1',
@@ -33,9 +33,9 @@ ALLOWED_HOSTS = ['tylerbischoff.dev',
 for i in range(1, 255):
     ALLOWED_HOSTS.append(f'192.168.254.{i}')
 
-# CSRF_TRUSTED_ORIGINS = [
-#     "",
-# ]
+CSRF_TRUSTED_ORIGINS = [
+    "https://www.tylerbischoff.dev",
+]
 
 
 # Application definition

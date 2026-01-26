@@ -13,7 +13,7 @@
             <h2 class="fw-bold">More Projects</h2>
             {% for project in projects %}
                 <a href="{% url 'projectDetails' project.slug %}" class="d-block shadow mt-3 project-container text-reset text-decoration-none w-100" style="padding:.75rem;">
-                    <img src="{% if project.thumbnail.image %}{{ project.thumbnail.image.url }}{% else %}{% static 'images/LogoBW.svg' %}{% endif %}" onerror="this.src='{% static 'images/LogoBW.svg' %}'" class="w-100 project-image">
+                    <img src="{% if project.thumbnail.image %}{{ project.thumbnail.image.url }}{% else %}{% static 'images/Error.png' %}{% endif %}" onerror="this.src='{% static 'images/LogoBW.svg' %}'" class="w-100 project-image">
                     <hr>
                     <h5 class="mt-2 fs-4 project-details text-capitalize">{{project.title}}</h5>
                     <p class="mb-0 fst-italic project-details">{{project.creator}}</p>

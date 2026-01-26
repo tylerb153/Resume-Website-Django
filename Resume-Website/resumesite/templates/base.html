@@ -25,9 +25,12 @@
                 
                 <!-- <div class="d-lg-none" style="width:125px; height:40px"></div> -->
 
-                <a class="navbar-brand mx-auto" href="{% url 'home' %}">
-                    <img src="{% static 'images/LogoColor.svg' %}" alt="Tyler's Logo" class="align-text-top" style="height: 50px">
+                <a class="navbar-brand mx-auto d-lg-none" href="{% url 'home' %}">
+                    {% comment %} <img src="{% static 'images/Error.png' %}" alt="Tyler's Logo" class="align-text-top" style="height: 50px"> {% endcomment %}
+                    {% comment %} <a class="nav-link fs-2 nav-no-hover-color">Tyler</a> {% endcomment %}
+                    <h5 class="fs-2 nav-link nav-item navbar-nav fw-bold">Tyler Bischoff</h5>
                 </a>
+
                 
                 <div class="offcanvas offcanvas-start" id="navbarToggler">
                     <div class="offcanvas-header bg-body-secondary flex-column align-items-start pb-0">

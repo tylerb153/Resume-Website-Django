@@ -26,6 +26,8 @@ class Project(models.Model):
     accepted = models.BooleanField(default=False)
     featured = models.BooleanField(default=False)
 
+    orderNum = models.IntegerField(default=1)
+
     @property
     def thumbnail(self):
         return self.images.filter(thumbnail=True).first()

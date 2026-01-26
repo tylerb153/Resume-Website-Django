@@ -24,7 +24,7 @@ def showcase(request):
 
     projects = projects.filter(accepted=True)
 
-    paginator = Paginator(projects.order_by('id'), 12)
+    paginator = Paginator(projects.order_by('orderNum'), 12)
     page_number = request.GET.get('page')
     projects = paginator.get_page(page_number)
     

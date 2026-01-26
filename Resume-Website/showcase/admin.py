@@ -13,7 +13,7 @@ class ImageInline(admin.TabularInline):
 # Register your models here.
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
-    list_display = ['title', 'creator', 'accepted', 'featured']
+    list_display = ['title', 'creator', 'accepted', 'featured', 'orderNum']
     list_filter = ['creator', 'tags', 'accepted', 'featured']
     search_fields = ['title', 'creator', 'tags']
     actions = ['markAccepted', 'markUnaccepted']

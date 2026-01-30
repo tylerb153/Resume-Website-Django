@@ -15,7 +15,7 @@ def home(request):
     featuredProject = updateFeaturedProject()
 
     # We are going to get the most recent project here for use in the recent project tile
-    recentProject = Project.objects.filter(accepted=True).last()
+    recentProject = Project.objects.filter(recent=True).first()
     images = getRandomImages()
     
     context = {'recentProject': recentProject, 'featuredProject': featuredProject, 'images':images}

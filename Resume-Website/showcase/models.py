@@ -25,6 +25,7 @@ class Project(models.Model):
 
     accepted = models.BooleanField(default=False)
     featured = models.BooleanField(default=False)
+    recent = models.BooleanField(default=False)
 
     orderNum = models.IntegerField(default=1)
 
